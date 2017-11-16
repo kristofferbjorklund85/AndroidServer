@@ -18,6 +18,7 @@ public class DBServlet {
         Connection c = null;
         try{
             c = DriverManager.getConnection(DB_CONN_STR);
+            con.setAutoCommit(false);
         } catch(Exception e){
             System.err.println("Error getting connection to " +
                     DB_CONN_STR);
