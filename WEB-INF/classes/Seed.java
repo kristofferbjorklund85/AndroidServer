@@ -2,10 +2,7 @@ import java.sql.*;
 
 public class Seed {
 
-    private static Connection conn = null;
-
     public static void init() {
-        conn = DBServlet.getConnection();
         deleteTables();
         createNewTable();
         seedDB();
@@ -15,7 +12,7 @@ public class Seed {
         if(DBServlet.hasConnection()) {
             String sql = "DROP TABLE IF EXISTS campsites";
             try{
-                Statement stmt = conn.createStatement();
+                Statement stmt = DBServlet.getConnection().createStatement();
                 // create a new table
                 stmt.execute(sql);
                 System.out.println("Dropped table");
@@ -40,7 +37,7 @@ public class Seed {
                     + ");";
 
             try{
-                Statement stmt = conn.createStatement();
+                Statement stmt = DBServlet.getConnection().createStatement();
                 // create a new table
                 stmt.execute(sql);
                 System.out.println("Table created");
@@ -54,8 +51,8 @@ public class Seed {
         if(DBServlet.hasConnection()) {
             try{
                 String sql = "INSERT INTO campsites VALUES('1','Lindholmen','44,34', 'School', 'Free', '30', 'All year', 'Very nice place, lots of cool people')";
-                Statement s = conn.createStatement();
-                s.executeUpdate(sql);
+                Statement stmt = DBServlet.getConnection().createStatement();
+                stmt.executeUpdate(sql);
                 System.out.println("Database seeded!");
             }catch(SQLException e) {
                 System.out.println(e.getMessage());
