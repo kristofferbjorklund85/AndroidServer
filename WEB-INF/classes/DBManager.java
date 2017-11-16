@@ -9,10 +9,30 @@ import java.util.List;
 
 public class DBManager {
 
-    public static void writeToDb(List list) {
-        String update = "";
+    public static void writeToDb(ArrayList<CampsiteModel> list) {
 
-        
+        Statement stmt = null;
+
+        try {
+            stmt = DBServlet.getConnection().createStatement();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        for(CampsiteModel cm : list) {
+            try {
+                stmt.executeUpdate( "INSERT INTO campsites (id, location, coordinates, type, fee, capacity, availability, " +
+                                    "description) VALUES (" + cm.id + ", '" + cm.location + "', '" + cm.coordinates +
+                                    "', '" + cm.type + "', '" + cm.fee + "', " + cm.capacity + ", '" + cm.availability +
+                                    "', '" + cm.description + "')");
+
+            } catch (SQLException e) {
+                rollbackSQL(stmt);
+                System.out.println(e);
+            }
+            commitSQL(stmt);
+        }
+
     }
 
     public static List readFromDb() {
@@ -69,19 +89,19 @@ public class DBManager {
         }
     }
 
-    public static void commitSQL(Statement s) {
+    public static void commitSQL(Statement stmt) {
         try {
             DBServlet.getConnection().commit();
-            s.close();
+            stmt.close();
         } catch (SQLException e) {
-            rollbackSQL(s);
+            rollbackSQL(stmt);
         }
     }
 
-    public static void rollbackSQL(Statement s) {
+    public static void rollbackSQL(Statement stmt) {
         try {
             DBServlet.getConnection().rollback();
-            s.close();
+            stmt.close();
         }
         catch(SQLException e) {
             System.out.println(e);
