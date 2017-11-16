@@ -11,12 +11,10 @@ public class DBServlet {
         }catch(ClassNotFoundException cnfe){
             System.err.println("Could not load driver: "+cnfe.getMessage());
         }
-    }
-
-    public DBServlet() {
         con = createConnection();
     }
-    private Connection createConnection(){
+
+    private static Connection createConnection(){
         Connection c = null;
         try{
             c = DriverManager.getConnection(DB_CONN_STR);
