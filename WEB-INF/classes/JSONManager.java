@@ -21,11 +21,12 @@ public class JSONManager {
                     jsonObj.getString("availability"),
                     jsonObj.getString("description"));
                 campList.add(cm);
+                System.out.println("created JSON Object from JsonArray.");
             } catch (JSONException e) {
                 //TODO create a standardised method for logging
             }
         }
-
+        System.out.println("Return List with Jsonobjects.");
         return campList;
     }
 
@@ -45,8 +46,9 @@ public class JSONManager {
             jsonObj.put("description", cm.description);
 
             jsonArray.put(jsonObj);
+            System.out.println("Added JSON Object to array.");
         }
-
+        System.out.println("Return Array with campsiteobjects.");
         return jsonArray;
     }
 
