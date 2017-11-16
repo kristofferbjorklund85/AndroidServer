@@ -33,7 +33,16 @@ public class JSONManager {
         JSONArray jsonArray = new JSONArray();
 
         for (int i = 0; i < list.size(); i++) {
+            CampsiteModel cm = (CampsiteModel) list.get(i);
             JSONObject jsonObj = new JSONObject();
+            jsonObj.put("id", cm.id);
+            jsonObj.put("location", cm.location);
+            jsonObj.put("coordinates", cm.coordinates);
+            jsonObj.put("type", cm.type);
+            jsonObj.put("fee", cm.fee);
+            jsonObj.put("capacity", cm.capacity);
+            jsonObj.put("availability", cm.availability);
+            jsonObj.put("description", cm.description);
 
             jsonArray.put(jsonObj);
         }
