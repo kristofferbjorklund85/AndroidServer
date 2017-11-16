@@ -11,7 +11,7 @@ public class Seed {
     private static void deleteTables() {
         if(DBServlet.hasConnection()) {
             String sql = "DROP TABLE IF EXISTS campsites";
-            try{
+            try {
                 Statement stmt = DBServlet.getConnection().createStatement();
                 // create a new table
                 stmt.execute(sql);
@@ -36,7 +36,7 @@ public class Seed {
                     + "	description text\n"
                     + ");";
 
-            try{
+            try {
                 Statement stmt = DBServlet.getConnection().createStatement();
                 // create a new table
                 stmt.execute(sql);
@@ -49,15 +49,14 @@ public class Seed {
 
     private static void seedDB() {
         if(DBServlet.hasConnection()) {
-            try{
+            try {
                 String sql = "INSERT INTO campsites VALUES('1','Lindholmen','44,34', 'School', 'Free', '30', 'All year', 'Very nice place, lots of cool people')";
                 Statement stmt = DBServlet.getConnection().createStatement();
                 stmt.executeUpdate(sql);
                 System.out.println("Database seeded!");
-            }catch(SQLException e) {
+            } catch(SQLException e) {
                 System.out.println(e.getMessage());
             }
         }
     }
-
 }

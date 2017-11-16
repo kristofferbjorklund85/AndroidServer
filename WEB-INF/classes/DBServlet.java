@@ -14,12 +14,11 @@ public class DBServlet {
         con = createConnection();
     }
 
-
     private static Connection createConnection(){
         Connection c = null;
         try{
             c = DriverManager.getConnection(DB_CONN_STR);
-        }catch(Exception e){
+        } catch(Exception e){
             System.err.println("Error getting connection to " +
                     DB_CONN_STR);
         }
