@@ -11,21 +11,17 @@ public class DBServlet {
         } catch(ClassNotFoundException cnfe){
             System.err.println("Could not load driver: "+cnfe.getMessage());
         }
-        con = createConnection();
     }
 
-    private static Connection createConnection(){
-        Connection c = null;
+    public static void createConnection(){
         try{
-            c = DriverManager.getConnection(DB_CONN_STR);
+            con = DriverManager.getConnection(DB_CONN_STR);
             con.setAutoCommit(false);
             System.out.println("We have a connection");
         } catch(Exception e){
             System.err.println("Error getting connection to " +
                     DB_CONN_STR);
         }
-
-        return c;
     }
 
 /*    public static boolean hasConnection(){
