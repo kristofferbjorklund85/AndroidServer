@@ -1,4 +1,5 @@
 public class CampsiteModel {
+
     int id;
     String location;
     String coordinates;
