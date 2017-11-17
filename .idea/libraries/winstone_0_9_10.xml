@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="winstone-0.9.10">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/winstone-0.9.10.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

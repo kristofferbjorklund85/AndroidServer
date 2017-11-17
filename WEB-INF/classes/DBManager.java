@@ -1,5 +1,3 @@
-import javax.swing.plaf.nimbus.State;
-import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,7 +12,7 @@ public class DBManager {
         Statement stmt = null;
 
         try {
-            stmt = DBServlet.getConnection().createStatement();
+            stmt = DBConMan.getConnection().createStatement();
         } catch (SQLException e) {
             System.out.println(e);
         }
@@ -67,7 +65,7 @@ public class DBManager {
     }
 
     public static ResultSet createRS(String query) {
-        Connection c = DBServlet.getConnection();
+        Connection c = DBConMan.getConnection();
         Statement s;
         ResultSet rs = null;
 
@@ -91,7 +89,7 @@ public class DBManager {
 
     public static void commitSQL(Statement stmt) {
         try {
-            DBServlet.getConnection().commit();
+            DBConMan.getConnection().commit();
             stmt.close();
         } catch (SQLException e) {
             rollbackSQL(stmt);
@@ -100,7 +98,7 @@ public class DBManager {
 
     public static void rollbackSQL(Statement stmt) {
         try {
-            DBServlet.getConnection().rollback();
+            DBConMan.getConnection().rollback();
             stmt.close();
         }
         catch(SQLException e) {
