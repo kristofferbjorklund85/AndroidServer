@@ -1,10 +1,13 @@
+import com.google.gson.Gson;
 import org.json.JSONArray;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.lang.reflect.Type;
 import java.util.List;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -33,7 +36,18 @@ public class DBServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        //super.doPost(req, resp);
+
+        BufferedReader reader = req.getReader();
+
+        Gson gson = new Gson();
+
+        CampsiteModel cm = gson.fromJson(reader, CampsiteModel.class);
+        System.out.println("asdasd");
+        //System.out.println(cm.location);
+        resp.setStatus(200);
+        //List jList = JSONManager.fromJSON();
+
     }
 
     @Override
