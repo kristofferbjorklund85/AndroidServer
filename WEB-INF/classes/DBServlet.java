@@ -1,5 +1,8 @@
 import com.google.gson.Gson;
+import org.json.HTTP;
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -8,6 +11,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -38,16 +42,30 @@ public class DBServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //super.doPost(req, resp);
 
-        BufferedReader reader = req.getReader();
-
+        //TODO tar endast ett object i nuläget
         Gson gson = new Gson();
+        StringBuffer jb = new StringBuffer();
+        String line = null;
+        CampsiteModel cm;
+        List<CampsiteModel> campList = new ArrayList<>();
 
-        CampsiteModel cm = gson.fromJson(reader, CampsiteModel.class);
-        System.out.println("asdasd");
-        //System.out.println(cm.location);
+        try {
+            BufferedReader reader = req.getReader();
+            while ((line = reader.readLine()) != null)
+                jb.append(line);
+        } catch (Exception e) { /*report an error*/ }
+
+        try {
+            cm = gson.fromJson(jb.toString(), CampsiteModel.class);
+        } catch (JSONException e) {
+            // crash and burn
+            throw new IOException("Error parsing JSON request string");
+        }
+
+        campList.add(cm);
+        DBManager.writeToDb(campList);
+
         resp.setStatus(200);
-        //List jList = JSONManager.fromJSON();
-
     }
 
     @Override

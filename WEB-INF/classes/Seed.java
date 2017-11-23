@@ -23,7 +23,7 @@ public class Seed {
     private static void createNewTable() {
         // SQL statement for creating a new table
         String sql = "CREATE TABLE IF NOT EXISTS campsites (\n"
-                + "	id integer PRIMARY KEY,\n"
+                + "	id text PRIMARY KEY,\n"
                 + "	location text NOT NULL,\n"
                 + "	coordinates text,\n"
                 + "	type text,\n"

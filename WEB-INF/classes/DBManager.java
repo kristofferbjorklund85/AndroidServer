@@ -4,10 +4,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class DBManager {
 
-    public static void writeToDb(ArrayList<CampsiteModel> list) {
+    //TODO ändra från List till CampsiteModel-object istället?
+    public static void writeToDb(List<CampsiteModel> list) {
 
         Statement stmt = null;
 
@@ -43,7 +45,7 @@ public class DBManager {
 
         try {
             while(rs.next()) {
-                CampsiteModel cm = new CampsiteModel(   rs.getInt(1),
+                CampsiteModel cm = new CampsiteModel(   rs.getString(1),
                                                         rs.getString(2),
                                                         rs.getString(3),
                                                         rs.getString(4),

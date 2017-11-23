@@ -6,13 +6,14 @@ import org.json.*;
 
 public class JSONManager {
 
+    //TODO se över denna metod, behöver vi den?
     public static List fromJSON(JSONArray array) {
         List<CampsiteModel> campList = new ArrayList<>();
         for (int i = 0; i < array.length(); i++) {
             try {
                 JSONObject jsonObj = array.getJSONObject(i);
                 CampsiteModel cm = new CampsiteModel(
-                    jsonObj.getInt("id"),
+                    jsonObj.getString("id"),
                     jsonObj.getString("location"),
                     jsonObj.getString("coordinates"),
                     jsonObj.getString("type"),
