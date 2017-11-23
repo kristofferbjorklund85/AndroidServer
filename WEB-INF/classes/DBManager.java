@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class DBManager {
 
@@ -25,7 +24,7 @@ public class DBManager {
                                     "description) VALUES (" + cm.id + ", '" + cm.location + "', '" + cm.coordinates +
                                     "', '" + cm.type + "', '" + cm.fee + "', " + cm.capacity + ", '" + cm.availability +
                                     "', '" + cm.description + "')");
-
+                System.out.println("Updated database with new Campsite object.");
             } catch (SQLException e) {
                 rollbackSQL(stmt);
                 System.out.println(e);
