@@ -15,7 +15,8 @@ public class JSONManager {
                 CampsiteModel cm = new CampsiteModel(
                     jsonObj.getString("id"),
                     jsonObj.getString("location"),
-                    jsonObj.getString("coordinates"),
+                    jsonObj.getDouble("lat"),
+                    jsonObj.getDouble("lng"),
                     jsonObj.getString("type"),
                     jsonObj.getString("fee"),
                     jsonObj.getInt("capacity"),
@@ -39,7 +40,8 @@ public class JSONManager {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("id", cm.id);
             jsonObj.put("location", cm.location);
-            jsonObj.put("coordinates", cm.coordinates);
+            jsonObj.put("lat", cm.lat);
+            jsonObj.put("lng", cm.lng);
             jsonObj.put("type", cm.type);
             jsonObj.put("fee", cm.fee);
             jsonObj.put("capacity", cm.capacity);

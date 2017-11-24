@@ -21,7 +21,7 @@ public class DBManager {
         for(CampsiteModel cm : list) {
             try {
                 stmt.executeUpdate( "INSERT INTO campsites (id, location, coordinates, type, fee, capacity, availability, " +
-                                    "description) VALUES (" + cm.id + ", '" + cm.location + "', '" + cm.coordinates +
+                                    "description) VALUES (" + cm.id + ", '" + cm.location + "', '" + cm.lat + cm.lng +
                                     "', '" + cm.type + "', '" + cm.fee + "', " + cm.capacity + ", '" + cm.availability +
                                     "', '" + cm.description + "')");
                 System.out.println("Updated database with new Campsite object.");
@@ -46,12 +46,13 @@ public class DBManager {
             while(rs.next()) {
                 CampsiteModel cm = new CampsiteModel(   rs.getString(1),
                                                         rs.getString(2),
-                                                        rs.getString(3),
-                                                        rs.getString(4),
+                                                        rs.getDouble(3),
+                                                        rs.getDouble(4),
                                                         rs.getString(5),
-                                                        rs.getInt(6),
                                                         rs.getString(6),
-                                                        rs.getString(7));
+                                                        rs.getInt(7),
+                                                        rs.getString(8),
+                                                        rs.getString(9));
                 campList.add(cm);
                 System.out.println("Added campsite to campList");
             }
