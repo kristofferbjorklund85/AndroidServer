@@ -15,7 +15,7 @@ public class DBServlet extends HttpServlet {
 
     public void init() throws ServletException  {
         DBConMan.createConnection();
-        Seed.init();
+        //Seed.init();
     }
 
     @Override
