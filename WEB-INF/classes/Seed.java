@@ -4,6 +4,7 @@ import java.util.UUID;
 public class Seed {
 
     public static void init() {
+        DBConMan.createConnection();
         deleteTables();
         createNewTable();
         seedDB();
