@@ -37,7 +37,7 @@ public class DBServlet extends HttpServlet {
         resp.setContentType("application/json");
 
         List list = DBManager.getCampsites();
-        JSONArray jRay = JSONManager.toJSON(list);
+        JSONArray jRay = JSONManager.campsiteToJSON(list);
 
         PrintWriter out = resp.getWriter();
 
