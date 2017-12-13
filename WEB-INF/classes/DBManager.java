@@ -53,7 +53,9 @@ public class DBManager {
                                                         rs.getString(7),
                                                         rs.getInt(8),
                                                         rs.getString(9),
-                                                        rs.getString(10));
+                                                        rs.getString(10),
+                                                        rs.getDouble(11),
+                                                        rs.getInt(12));
                 campList.add(cm);
                 System.out.println("Added campsite to campList");
             }

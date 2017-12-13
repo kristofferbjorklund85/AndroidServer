@@ -22,7 +22,10 @@ public class JSONManager {
                     jsonObj.getString("fee"),
                     jsonObj.getInt("capacity"),
                     jsonObj.getString("availability"),
-                    jsonObj.getString("description"));
+                    jsonObj.getString("description"),
+                    jsonObj.getDouble("rating"),
+                    jsonObj.getInt("views"));
+
                 campList.add(cm);
                 System.out.println("created JSON Object from JsonArray.");
             } catch (JSONException e) {
