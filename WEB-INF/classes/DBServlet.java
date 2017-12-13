@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 
@@ -57,13 +58,16 @@ public class DBServlet extends HttpServlet {
         StringBuffer jb = new StringBuffer();
         String line = null;
 
+        /*Enumeration<String> parameterNames = req.getParameterNames();
+        for (String param : parameterNames) {
+            if(param.equals(""))
+        }*/
 
-        System.out.println(req.getAttribute("id"));
+        System.out.println("ADASDASD" + req.getParameterValues("id"));
 
         try {
             BufferedReader reader = req.getReader();
             while ((line = reader.readLine()) != null)
-                System.out.println(line);
                 jb.append(line);
         } catch (Exception e) { /*report an error*/ }
 
