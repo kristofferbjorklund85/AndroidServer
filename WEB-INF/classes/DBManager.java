@@ -34,7 +34,7 @@ public class DBManager {
 
     }
 
-    public static List readFromDb() {
+    public static List getCampsiteFromDb() {
         List<CampsiteModel> campList = new ArrayList<>();
 
         String query = "SELECT * FROM campsites";
@@ -46,13 +46,14 @@ public class DBManager {
             while(rs.next()) {
                 CampsiteModel cm = new CampsiteModel(   rs.getString(1),
                                                         rs.getString(2),
-                                                        rs.getDouble(3),
+                                                        rs.getString(3),
                                                         rs.getDouble(4),
-                                                        rs.getString(5),
+                                                        rs.getDouble(5),
                                                         rs.getString(6),
-                                                        rs.getInt(7),
-                                                        rs.getString(8),
-                                                        rs.getString(9));
+                                                        rs.getString(7),
+                                                        rs.getInt(8),
+                                                        rs.getString(9),
+                                                        rs.getString(10));
                 campList.add(cm);
                 System.out.println("Added campsite to campList");
             }
