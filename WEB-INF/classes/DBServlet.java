@@ -22,10 +22,10 @@ public class DBServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //super.doGet(req, resp);
 
-        if(req.getParameterMap().containsKey("Campsite")) {
+        if(req.getParameter("type").equals("campsite")) {
         resp.setContentType("application/json");
 
-        List list = DBManager.getCampsiteFromDb();
+        List list = DBManager.getCampsitesFromDb();
         JSONArray jRay = JSONManager.campsiteToJSON(list);
         PrintWriter out = resp.getWriter();
 
@@ -34,15 +34,15 @@ public class DBServlet extends HttpServlet {
         resp.setStatus(200);
         }
 
-        else if(req.getParameterMap().containsKey("Comment")) {
+        else if(req.getParameter("type").equals("comment")) {
         resp.setContentType("application/json");
 
-        List list = DBManager.getCommentFromDb();
-        JSONArray jRay = JSONManager.CommentsToJSON(list);
+        List list = DBManager.getCommentsFromDb(req.getParameter("Id"));
+        //JSONArray jRay = JSONManager.CommentsToJSON(list);
 
         PrintWriter out = resp.getWriter();
 
-        out.print(jRay);
+        //out.print(jRay);
         out.close();
         resp.setStatus(200);
         }
