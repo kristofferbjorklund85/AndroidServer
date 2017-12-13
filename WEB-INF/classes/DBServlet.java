@@ -36,7 +36,7 @@ public class DBServlet extends HttpServlet {
         //if(jb == campsite) {
         resp.setContentType("application/json");
 
-        List list = DBManager.getCampsites();
+        List list = DBManager.getCampsiteFromDb();
         JSONArray jRay = JSONManager.campsiteToJSON(list);
 
         PrintWriter out = resp.getWriter();
