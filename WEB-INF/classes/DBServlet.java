@@ -63,7 +63,7 @@ public class DBServlet extends HttpServlet {
                 jb.append(line);
         } catch (Exception e) { /*report an error*/ }
 
-        if(req.getParameterMap().containsKey("Campsite")) {
+        if(req.getParameter("type").equals("campsite")) {
         CampsiteModel cm;
         List<CampsiteModel> campList = new ArrayList<>();
         try {
@@ -78,7 +78,7 @@ public class DBServlet extends HttpServlet {
         resp.setStatus(200);
         }
 
-        else if(req.getParameterMap().containsKey("Comment")) {
+        else if(req.getParameter("type").equals("comment")) {
         CommentModel comment;
         List<CommentModel> commentsList = new ArrayList<>();
         try {
