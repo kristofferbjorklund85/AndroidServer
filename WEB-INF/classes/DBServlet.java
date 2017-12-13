@@ -21,9 +21,35 @@ public class DBServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //super.doGet(req, resp);
+
+        StringBuffer jb = new StringBuffer();
+        String line = null;
+
+        try {
+            BufferedReader reader = req.getReader();
+            while ((line = reader.readLine()) != null)
+                jb.append(line);
+        } catch (Exception e) { /*report an error*/ }
+
+        System.out.println(jb.toString());
+
+        //if(jb == campsite) {
         resp.setContentType("application/json");
 
-        List list = DBManager.readFromDb();
+        List list = DBManager.getCampsites();
+        JSONArray jRay = JSONManager.campsiteToJSON(list);
+
+        PrintWriter out = resp.getWriter();
+
+        out.print(jRay);
+        out.close();
+        resp.setStatus(200);
+        //}
+
+        /*else if(jb == comment) {
+        resp.setContentType("application/json");
+
+        List list = DBManager.getComments();
         JSONArray jRay = JSONManager.toJSON(list);
 
         PrintWriter out = resp.getWriter();
@@ -31,6 +57,7 @@ public class DBServlet extends HttpServlet {
         out.print(jRay);
         out.close();
         resp.setStatus(200);
+        }*/
     }
 
     @Override
@@ -41,8 +68,6 @@ public class DBServlet extends HttpServlet {
         Gson gson = new Gson();
         StringBuffer jb = new StringBuffer();
         String line = null;
-        CampsiteModel cm;
-        List<CampsiteModel> campList = new ArrayList<>();
 
         try {
             BufferedReader reader = req.getReader();
@@ -50,6 +75,9 @@ public class DBServlet extends HttpServlet {
                 jb.append(line);
         } catch (Exception e) { /*report an error*/ }
 
+        //if(jb == campsite) {
+        CampsiteModel cm;
+        List<CampsiteModel> campList = new ArrayList<>();
         try {
             cm = gson.fromJson(jb.toString(), CampsiteModel.class);
         } catch (JSONException e) {
@@ -61,6 +89,23 @@ public class DBServlet extends HttpServlet {
         DBManager.writeToDb(campList);
 
         resp.setStatus(200);
+        //}
+
+        /*else if(jb == comment) {
+        CommentModel comment;
+        List<CommentModel> commentsList = new ArrayList<>();
+        try {
+            comment = gson.fromJson(jb.toString(), CommentModel.class);
+        } catch (JSONException e) {
+            // crash and burn
+            throw new IOException("Error parsing JSON request string");
+        }
+
+        commentsList.add(comment);
+        DBManager.writeToDb(commentsList);
+
+        resp.setStatus(200);
+        }*/
     }
 
     @Override
