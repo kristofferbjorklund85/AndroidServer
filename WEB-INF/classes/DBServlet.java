@@ -26,7 +26,7 @@ public class DBServlet extends HttpServlet {
         resp.setContentType("application/json");
 
         List list = DBManager.getCampsitesFromDb();
-        JSONArray jRay = JSONManager.campsiteToJSON(list);
+        JSONArray jRay = JSONManager.campsitesToJSON(list);
         PrintWriter out = resp.getWriter();
 
         out.print(jRay);
@@ -37,12 +37,12 @@ public class DBServlet extends HttpServlet {
         else if(req.getParameter("type").equals("comment")) {
         resp.setContentType("application/json");
 
-        List list = DBManager.getCommentsFromDb(req.getParameter("Id"));
-        //JSONArray jRay = JSONManager.CommentsToJSON(list);
+        List list = DBManager.getCommentsFromDb(req.getParameter("campsiteid"));
+        JSONArray jRay = JSONManager.commentsToJSON(list);
 
         PrintWriter out = resp.getWriter();
 
-        //out.print(jRay);
+        out.print(jRay);
         out.close();
         resp.setStatus(200);
         }
@@ -63,6 +63,7 @@ public class DBServlet extends HttpServlet {
                 jb.append(line);
         } catch (Exception e) { /*report an error*/ }
 
+        //Create List of campsiteModels from REQ
         if(req.getParameter("type").equals("campsite")) {
         CampsiteModel cm;
         List<CampsiteModel> campList = new ArrayList<>();
@@ -73,11 +74,13 @@ public class DBServlet extends HttpServlet {
             throw new IOException("Error parsing JSON request string");
         }
 
+        //Write List of CampsiteModels to DB
         campList.add(cm);
         DBManager.writeCampsiteToDb(campList);
         resp.setStatus(200);
         }
 
+        //Create List of commentModels from REQ
         else if(req.getParameter("type").equals("comment")) {
         CommentModel comment;
         List<CommentModel> commentsList = new ArrayList<>();
@@ -88,6 +91,7 @@ public class DBServlet extends HttpServlet {
             throw new IOException("Error parsing JSON request string");
         }
 
+        //Write List of CommentModels to DB
         commentsList.add(comment);
         DBManager.writeCommentToDb(commentsList);
         resp.setStatus(200);

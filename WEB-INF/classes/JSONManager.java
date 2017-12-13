@@ -36,7 +36,7 @@ public class JSONManager {
         return campList;
     }
 
-    public static JSONArray campsiteToJSON(List list) {
+    public static JSONArray campsitesToJSON(List list) {
         JSONArray jsonArray = new JSONArray();
 
         for (int i = 0; i < list.size(); i++) {
@@ -57,6 +57,25 @@ public class JSONManager {
             System.out.println("Added JSON Object to array.");
         }
         System.out.println("Return Array with campsiteobjects.");
+        return jsonArray;
+    }
+
+    public static JSONArray commentsToJSON(List list) {
+        JSONArray jsonArray = new JSONArray();
+
+        for (int i = 0; i < list.size(); i++) {
+            CommentModel c = (CommentModel) list.get(i);
+            JSONObject jsonObj = new JSONObject();
+            jsonObj.put("id", c.id);
+            jsonObj.put("campsiteid", c.campsiteId);
+            jsonObj.put("date", c.date);
+            jsonObj.put("username", c.username);
+            jsonObj.put("commentbody", c.commentBody);
+
+            jsonArray.put(jsonObj);
+            System.out.println("Added JSON Object to array.");
+        }
+        System.out.println("Return Array with commentobjects.");
         return jsonArray;
     }
 
