@@ -2,6 +2,7 @@ public class CampsiteModel {
 
     String id;
     String location;
+    String name;
     double lat;
     double lng;
     String type;
@@ -10,10 +11,11 @@ public class CampsiteModel {
     String availability;
     String description;
 
-    public CampsiteModel(String id, String location, double lat, double lng, String type, String fee,
+    public CampsiteModel(String id, String location, String name, double lat, double lng, String type, String fee,
                          int capacity, String availability, String description){
         this.id = id;
         this.location = location;
+        this.name = name;
         this.lat = lat;
         this.lng = lng;
         this.type = type;
