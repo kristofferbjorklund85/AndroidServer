@@ -37,7 +37,7 @@ public class DBServlet extends HttpServlet {
         else if(req.getParameterMap().containsKey("Comment")) {
         resp.setContentType("application/json");
 
-        List list = DBManager.getComments();
+        List list = DBManager.getCommentFromDb();
         JSONArray jRay = JSONManager.CommentsToJSON(list);
 
         PrintWriter out = resp.getWriter();
@@ -74,7 +74,7 @@ public class DBServlet extends HttpServlet {
         }
 
         campList.add(cm);
-        DBManager.writeToDb(campList);
+        DBManager.writeCampsiteToDb(campList);
         resp.setStatus(200);
         }
 
@@ -89,7 +89,7 @@ public class DBServlet extends HttpServlet {
         }
 
         commentsList.add(comment);
-        DBManager.writeToDb(commentsList);
+        DBManager.writeCommentToDb(commentsList);
         resp.setStatus(200);
         }
     }
