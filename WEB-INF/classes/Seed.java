@@ -11,12 +11,13 @@ public class Seed {
     }
 
     private static void deleteTables() {
-        String sql = "DROP TABLE IF EXISTS campsites, comments";
+        String sql1 = "DROP TABLE IF EXISTS campsites";
+        String sql2 = "DROP TABLE IF EXISTS comments";
         try {
             Statement stmt = DBConMan.getConnection().createStatement();
             // create a new table
-            stmt.execute(sql);
-            DBManager.commitSQL(stmt);
+            stmt.execute(sql1);
+            stmt.execute(sql2);
             System.out.println("Dropped table");
         } catch(SQLException e) {
             System.out.println(e.getMessage());
@@ -53,7 +54,6 @@ public class Seed {
             // create a new table
             stmt.execute(campsiteTablesql);
             stmt.execute(commentTablesql);
-            DBManager.commitSQL(stmt);
             System.out.println("Table created");
         } catch(SQLException e) {
             System.out.println(e.getMessage());
@@ -72,9 +72,9 @@ public class Seed {
                                     "INSERT INTO campsites VALUES('" + id2 + "','Lindholmen', 'Gothenburg', '-32.952854', '116.857342', 'School', 'Free', '30', 'All year', 'Very nice place, lots of cool people', '3.5', '4535')",
                                     "INSERT INTO campsites VALUES('" + id3 + "','Lindholmen', 'Gothenburg', '-33.952854', '117.857342', 'School', 'Free', '30', 'All year', 'Very nice place, lots of cool people', '3.5', '312342')"};
 
-            String[] commentsql = { "INSERT INTO campsites VALUES('" + UUID.randomUUID().toString() + "','" + id1 + "', '2017-05-24', 'JanBanan','Good stuff yo!')",
-                                    "INSERT INTO campsites VALUES('" + UUID.randomUUID().toString() + "','" + id1 + "', '2017-05-24', 'JanBanan','Good stuff yo!')",
-                                    "INSERT INTO campsites VALUES('" + UUID.randomUUID().toString() + "','" + id1 + "', '2017-05-24', 'JanBanan','Good stuff yo!')"};
+            String[] commentsql = { "INSERT INTO comments VALUES('" + UUID.randomUUID().toString() + "','" + id1 + "', '2017-05-24', 'JanBanan','Good stuff yo!')",
+                                    "INSERT INTO comments VALUES('" + UUID.randomUUID().toString() + "','" + id1 + "', '2017-05-24', 'JanBanan','Good stuff yo!')",
+                                    "INSERT INTO comments VALUES('" + UUID.randomUUID().toString() + "','" + id1 + "', '2017-05-24', 'JanBanan','Good stuff yo!')"};
 
             for (int i = 0; i < campsitesql.length; i++) {
                 stmt.executeUpdate(campsitesql[i]);
