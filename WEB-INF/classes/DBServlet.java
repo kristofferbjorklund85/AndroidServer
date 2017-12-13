@@ -57,12 +57,17 @@ public class DBServlet extends HttpServlet {
         StringBuffer jb = new StringBuffer();
         String line = null;
 
+
+        System.out.println(req.getAttribute("id"));
+
         try {
             BufferedReader reader = req.getReader();
             while ((line = reader.readLine()) != null)
+                System.out.println(line);
                 jb.append(line);
         } catch (Exception e) { /*report an error*/ }
 
+        System.out.println(jb.toString());
         //Create List of campsiteModels from REQ
         if(req.getParameter("type").equals("campsite")) {
         CampsiteModel cm;

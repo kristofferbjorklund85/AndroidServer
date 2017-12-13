@@ -52,6 +52,8 @@ public class JSONManager {
             jsonObj.put("capacity", cm.capacity);
             jsonObj.put("availability", cm.availability);
             jsonObj.put("description", cm.description);
+            jsonObj.put("rating", cm.rating);
+            jsonObj.put("views", cm.views);
 
             jsonArray.put(jsonObj);
             System.out.println("Added JSON Object to array.");
