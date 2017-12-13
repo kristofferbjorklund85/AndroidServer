@@ -7,7 +7,7 @@ import org.json.*;
 public class JSONManager {
 
     //TODO se över denna metod, behöver vi den?
-    public static List fromJSON(JSONArray array) {
+    public static List CampsitefromJSON(JSONArray array) {
         List<CampsiteModel> campList = new ArrayList<>();
         for (int i = 0; i < array.length(); i++) {
             try {
@@ -15,6 +15,7 @@ public class JSONManager {
                 CampsiteModel cm = new CampsiteModel(
                     jsonObj.getString("id"),
                     jsonObj.getString("location"),
+                    jsonObj.getString("name"),
                     jsonObj.getDouble("lat"),
                     jsonObj.getDouble("lng"),
                     jsonObj.getString("type"),
@@ -32,7 +33,7 @@ public class JSONManager {
         return campList;
     }
 
-    public static JSONArray toJSON(List list) {
+    public static JSONArray campsiteToJSON(List list) {
         JSONArray jsonArray = new JSONArray();
 
         for (int i = 0; i < list.size(); i++) {
@@ -40,6 +41,7 @@ public class JSONManager {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("id", cm.id);
             jsonObj.put("location", cm.location);
+            jsonObj.put("name", cm.name);
             jsonObj.put("lat", cm.lat);
             jsonObj.put("lng", cm.lng);
             jsonObj.put("type", cm.type);
