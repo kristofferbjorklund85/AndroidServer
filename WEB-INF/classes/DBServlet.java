@@ -31,7 +31,7 @@ public class DBServlet extends HttpServlet {
                 jb.append(line);
         } catch (Exception e) { /*report an error*/ }
 
-        System.out.println(jb.toString());
+        //System.out.println(jb);
 
         //if(jb == campsite) {
         resp.setContentType("application/json");
