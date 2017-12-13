@@ -22,42 +22,30 @@ public class DBServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //super.doGet(req, resp);
 
-        StringBuffer jb = new StringBuffer();
-        String line = null;
-
-        try {
-            BufferedReader reader = req.getReader();
-            while ((line = reader.readLine()) != null)
-                jb.append(line);
-        } catch (Exception e) { /*report an error*/ }
-
-        //System.out.println(jb);
-
-        //if(jb == campsite) {
+        if(req.getParameterMap().containsKey("Campsite")) {
         resp.setContentType("application/json");
 
         List list = DBManager.getCampsiteFromDb();
         JSONArray jRay = JSONManager.campsiteToJSON(list);
-
         PrintWriter out = resp.getWriter();
 
         out.print(jRay);
         out.close();
         resp.setStatus(200);
-        //}
+        }
 
-        /*else if(jb == comment) {
+        else if(req.getParameterMap().containsKey("Comment")) {
         resp.setContentType("application/json");
 
         List list = DBManager.getComments();
-        JSONArray jRay = JSONManager.toJSON(list);
+        JSONArray jRay = JSONManager.CommentsToJSON(list);
 
         PrintWriter out = resp.getWriter();
 
         out.print(jRay);
         out.close();
         resp.setStatus(200);
-        }*/
+        }
     }
 
     @Override
@@ -75,7 +63,7 @@ public class DBServlet extends HttpServlet {
                 jb.append(line);
         } catch (Exception e) { /*report an error*/ }
 
-        //if(jb == campsite) {
+        if(req.getParameterMap().containsKey("Campsite")) {
         CampsiteModel cm;
         List<CampsiteModel> campList = new ArrayList<>();
         try {
@@ -87,11 +75,10 @@ public class DBServlet extends HttpServlet {
 
         campList.add(cm);
         DBManager.writeToDb(campList);
-
         resp.setStatus(200);
-        //}
+        }
 
-        /*else if(jb == comment) {
+        else if(req.getParameterMap().containsKey("Comment")) {
         CommentModel comment;
         List<CommentModel> commentsList = new ArrayList<>();
         try {
@@ -103,9 +90,8 @@ public class DBServlet extends HttpServlet {
 
         commentsList.add(comment);
         DBManager.writeToDb(commentsList);
-
         resp.setStatus(200);
-        }*/
+        }
     }
 
     @Override
