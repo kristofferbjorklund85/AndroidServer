@@ -58,7 +58,7 @@ public class DBManager {
 
     }
 
-    public static List getCommentFromDb(String campsiteId) {
+    public static List getCommentsFromDb(String campsiteId) {
         List<CommentModel> commentList = new ArrayList<>();
 
         String query = "SELECT * FROM comments where campsiteid=" + campsiteId;
@@ -86,7 +86,7 @@ public class DBManager {
         return commentList;
     }
 
-    public static List getCampsiteFromDb() {
+    public static List getCampsitesFromDb() {
         List<CampsiteModel> campList = new ArrayList<>();
 
         String query = "SELECT * FROM campsites";
