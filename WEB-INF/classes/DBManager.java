@@ -7,8 +7,32 @@ import java.util.List;
 
 public class DBManager {
 
+    public static void writeCommentToDb(List<CommentModel> list) {
+        Statement stmt = null;
+
+        try {
+            stmt = DBConMan.getConnection().createStatement();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        for(CommentModel cm : list) {
+            try {
+                stmt.executeUpdate( "INSERT INTO comments (id, campsiteid, date, username, commentbody) VALUES " +
+                        "('" + cm.id + "', '" + cm.campsiteId + "', '" + cm.date + "', '" + cm.commentBody + "')");
+                System.out.println("Updated database with new Comment object.");
+            } catch (SQLException e) {
+                rollbackSQL(stmt);
+                System.out.println(e);
+            }
+            commitSQL(stmt);
+        }
+
+
+    }
+
     //TODO ändra från List till CampsiteModel-object istället?
-    public static void writeToDb(List<CampsiteModel> list) {
+    public static void writeCampsiteToDb(List<CampsiteModel> list) {
 
         Statement stmt = null;
 
@@ -32,6 +56,34 @@ public class DBManager {
             commitSQL(stmt);
         }
 
+    }
+
+    public static List getCommentFromDb(String campsiteId) {
+        List<CommentModel> commentList = new ArrayList<>();
+
+        String query = "SELECT * FROM comments where campsiteid=" + campsiteId;
+
+        ResultSet rs = createRS(query);
+        System.out.println("Comments retrieved");
+
+        try {
+            while(rs.next()) {
+                CommentModel cm = new CommentModel(rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5));
+                commentList.add(cm);
+                System.out.println("Added comment to commentList");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            closeRS(rs);
+        }
+
+        System.out.println("Returning commentList");
+        return commentList;
     }
 
     public static List getCampsiteFromDb() {
