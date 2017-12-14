@@ -47,6 +47,10 @@ public class DBServlet extends HttpServlet {
         out.close();
         resp.setStatus(200);
         }
+
+        else {
+            resp.setStatus(204);
+        }
     }
 
     @Override
@@ -57,13 +61,7 @@ public class DBServlet extends HttpServlet {
         Gson gson = new Gson();
         StringBuffer jb = new StringBuffer();
         String line = null;
-
-        /*Enumeration<String> parameterNames = req.getParameterNames();
-        for (String param : parameterNames) {
-            if(param.equals(""))
-        }*/
-
-        System.out.println("ADASDASD" + req.getParameterValues("id"));
+        String type = req.getParameter("type");
 
         try {
             BufferedReader reader = req.getReader();
@@ -71,9 +69,10 @@ public class DBServlet extends HttpServlet {
                 jb.append(line);
         } catch (Exception e) { /*report an error*/ }
 
-        System.out.println(jb.toString());
+        System.out.println("\n" + jb.toString());
+
         //Create List of campsiteModels from REQ
-        if(req.getParameter("type").equals("campsite")) {
+        if(type.equals("campsite")) {
         CampsiteModel cm;
         List<CampsiteModel> campList = new ArrayList<>();
         try {
@@ -90,7 +89,7 @@ public class DBServlet extends HttpServlet {
         }
 
         //Create List of commentModels from REQ
-        else if(req.getParameter("type").equals("comment")) {
+        else if(type.equals("comment")) {
         CommentModel comment;
         List<CommentModel> commentsList = new ArrayList<>();
         try {
@@ -99,6 +98,12 @@ public class DBServlet extends HttpServlet {
             // crash and burn
             throw new IOException("Error parsing JSON request string");
         }
+
+        System.out.println("id: " + comment.id);
+        System.out.println("csid: " + comment.campsiteId);
+        System.out.println("date: " + comment.date);
+        System.out.println("user: " + comment.username);
+        System.out.println("body: " + comment.commentBody);
 
         //Write List of CommentModels to DB
         commentsList.add(comment);

@@ -19,7 +19,7 @@ public class DBManager {
         for(CommentModel cm : list) {
             try {
                 stmt.executeUpdate( "INSERT INTO comments (id, campsiteid, date, username, commentbody) VALUES " +
-                        "('" + cm.id + "', '" + cm.campsiteId + "', '" + cm.date + "', '" + cm.commentBody + "')");
+                        "('" + cm.id + "', '" + cm.campsiteId + "', '" + cm.date + "', '" + cm.username + "', '" + cm.commentBody + "')");
                 System.out.println("Updated database with new Comment object.");
             } catch (SQLException e) {
                 rollbackSQL(stmt);
