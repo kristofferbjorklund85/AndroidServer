@@ -8,7 +8,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 
 
@@ -26,7 +25,7 @@ public class DBServlet extends HttpServlet {
         if(req.getParameter("type").equals("campsite")) {
         resp.setContentType("application/json");
 
-        List list = DBManager.getCampsitesFromDb();
+        List list = DBManager.getCampsitesFromDb(req.getParameter("param1"), req.getParameter("param2"));
         JSONArray jRay = JSONManager.campsitesToJSON(list);
         PrintWriter out = resp.getWriter();
 
@@ -49,7 +48,7 @@ public class DBServlet extends HttpServlet {
         }
 
         else {
-            resp.setStatus(204);
+            resp.setStatus(404);
         }
     }
 

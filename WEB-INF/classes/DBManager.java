@@ -7,6 +7,8 @@ import java.util.List;
 
 public class DBManager {
 
+    static double minMax = 0.15;
+
     public static void writeCommentToDb(List<CommentModel> list) {
         Statement stmt = null;
 
@@ -86,10 +88,19 @@ public class DBManager {
         return commentList;
     }
 
-    public static List getCampsitesFromDb() {
+    public static List getCampsitesFromDb(String lat, String lng) {
         List<CampsiteModel> campList = new ArrayList<>();
 
-        String query = "SELECT * FROM campsites";
+        double pLat = Double.valueOf(lat) + minMax;
+        double mLat = Double.valueOf(lat) - minMax;
+        double pLng = Double.valueOf(lng) + minMax;
+        double mLng = Double.valueOf(lng) - minMax;
+
+        String query =  "SELECT * " +
+                        "FROM campsites " +
+                        "WHERE lat (BETWEEN " + pLat +
+                        "AND " + mLat + ") AND (lng BETWEEN " +
+                        pLng + " AND " + mLng + ");";
 
         ResultSet rs = createRS(query);
         System.out.println("Campsites retrieved");
