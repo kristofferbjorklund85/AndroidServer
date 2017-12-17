@@ -122,19 +122,23 @@ public class DBServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //super.doDelete(req, resp);
-
         Map<String, String> params = getParameterMap(req);
 
-        System.out.println("params: " + params.get("type"));
-        System.out.println("params: " + params.get("commentId"));
+        if(params == null) {
+            System.out.println("Params is null");
+            return;
+        }
 
-        if(true) {
-            System.out.println("CommentId is null");
+        if(params.get("type").equals("comment")) {
+            System.out.println("Sending CommentId for deletion");
+
+            resp.setStatus(200);
         } else {
-            System.out.println("CommentId: " + req.getParameter("commentId"));
-            DBManager.deleteComment(req.getParameter("commentId"));
+            System.out.println("Sending campsiteId for deletion");
+            //DBManager.deleteCampsite(params.get("campsiteId"));
             resp.setStatus(200);
         }
+
 
 }
 
@@ -161,15 +165,13 @@ public class DBServlet extends HttpServlet {
 
             return dataMap;
         } catch (IOException ex) {
-
-
+            System.out.println("Exception in GetParams Catch: " + ex.getMessage());
         } finally {
             if (br != null) {
                 try {
                     br.close();
                 } catch (IOException ex) {
-
-
+                    System.out.println("Exception in GetParams Finally: " + ex.getMessage());
                 }
             }
         }

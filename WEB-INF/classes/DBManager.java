@@ -173,11 +173,12 @@ public class DBManager {
             System.out.println(e);
         }
         try {
-            stmt.executeUpdate("DELETE FROM comments WHERE id=" + commentId);
+            stmt.executeUpdate("DELETE FROM comments WHERE id='" + commentId + "'");
             System.out.println("Deleteing comment: "+ commentId);
         } catch (SQLException e) {
             rollbackSQL(stmt);
-            System.out.println(e);
+            System.out.println("SQL Exception when DELETING: " + e);
+            return;
         } finally {
             commitSQL(stmt);
             System.out.println("Comment was deleted");
