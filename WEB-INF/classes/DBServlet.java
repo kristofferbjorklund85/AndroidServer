@@ -129,7 +129,7 @@ public class DBServlet extends HttpServlet {
         if(params.get("type").equals("comment")) {
             System.out.println("params: " + params.get("commentId"));
 
-            if (true) {
+            if (params.get("commentId") == null) {
                 System.out.println("CommentId is null");
             } else {
                 System.out.println("CommentId: " + params.get("commentId"));
