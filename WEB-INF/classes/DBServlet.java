@@ -1,3 +1,4 @@
+import com.google.common.base.Splitter;
 import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -6,9 +7,11 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class DBServlet extends HttpServlet {
@@ -119,7 +122,59 @@ public class DBServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //super.doDelete(req, resp);
-        DBManager.deleteComment(req.getParameter("commentId"));
-        resp.setStatus(200);
+
+        Map<String, String> params = getParameterMap(req);
+
+        System.out.println("params: " + params.get("type"));
+        System.out.println("params: " + params.get("commentId"));
+
+        if(true) {
+            System.out.println("CommentId is null");
+        } else {
+            System.out.println("CommentId: " + req.getParameter("commentId"));
+            DBManager.deleteComment(req.getParameter("commentId"));
+            resp.setStatus(200);
+        }
+
 }
+
+    public static Map<String, String> getParameterMap(HttpServletRequest request) {
+
+        BufferedReader br = null;
+        Map<String, String> dataMap = null;
+
+        try {
+
+            InputStreamReader reader = new InputStreamReader(
+                    request.getInputStream());
+            br = new BufferedReader(reader);
+
+            String data = br.readLine();
+
+            dataMap = Splitter.on('&')
+                    .trimResults()
+                    .withKeyValueSeparator(
+                            Splitter.on('=')
+                                    .limit(2)
+                                    .trimResults())
+                    .split(data);
+
+            return dataMap;
+        } catch (IOException ex) {
+
+
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException ex) {
+
+
+                }
+            }
+        }
+
+        return dataMap;
+    }
+
 }

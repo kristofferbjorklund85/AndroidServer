@@ -15,5 +15,6 @@
     <orderEntry type="library" name="javax.servlet-api-3.1.0" level="project" />
     <orderEntry type="library" name="winstone-0.9.10" level="project" />
     <orderEntry type="library" name="gson-2.8.2" level="project" />
+    <orderEntry type="library" name="guava-19.0" level="project" />
   </component>
 </module>

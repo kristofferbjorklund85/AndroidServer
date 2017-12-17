@@ -178,9 +178,11 @@ public class DBManager {
         } catch (SQLException e) {
             rollbackSQL(stmt);
             System.out.println(e);
+        } finally {
+            commitSQL(stmt);
+            System.out.println("Comment was deleted");
         }
-        commitSQL(stmt);
-        System.out.println("Comment was deleted");
+
     }
 }
 
