@@ -45,9 +45,9 @@ public class DBManager {
         for(CampsiteModel cm : list) {
             try {
                 stmt.executeUpdate( "INSERT INTO campsites (id, location, name, lat, lng, type, fee, capacity, availability, " +
-                                    "description, rating, views, username) VALUES ('" + cm.id + "', '" + cm.location + "', '" + cm.location +
+                                    "description, rating, views, username) VALUES ('" + cm.id + "', '" + cm.location + "', '" + cm.name +
                                     cm.lat + "', '" + cm.lng + "', '" + cm.type + "', '" + cm.fee + "', " + cm.capacity + ", '" + cm.availability +
-                                    "', '" + cm.description + ", " + 0.0 + ", " + 0 + ", " + cm.username + "')");
+                                    "', '" + cm.description + "', '" + 0.0 + "', '" + 0 + "', '" + cm.username + "')");
                 System.out.println("Updated database with new Campsite object.");
             } catch (SQLException e) {
                 rollbackSQL(stmt);
