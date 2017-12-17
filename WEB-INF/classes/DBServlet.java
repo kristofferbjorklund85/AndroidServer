@@ -25,7 +25,7 @@ public class DBServlet extends HttpServlet {
         if(req.getParameter("type").equals("campsite")) {
         resp.setContentType("application/json");
 
-        List list = DBManager.getCampsitesFromDb(req.getParameter("param1"), req.getParameter("param2"));
+        List list = DBManager.getCampsitesFromDb();
         JSONArray jRay = JSONManager.campsitesToJSON(list);
         PrintWriter out = resp.getWriter();
 
@@ -120,5 +120,6 @@ public class DBServlet extends HttpServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //super.doDelete(req, resp);
         DBManager.deleteComment(req.getParameter("commentId"));
+        resp.setStatus(200);
 }
 }

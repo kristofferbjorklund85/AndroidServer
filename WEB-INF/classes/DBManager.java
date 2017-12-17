@@ -88,19 +88,11 @@ public class DBManager {
         return commentList;
     }
 
-    public static List getCampsitesFromDb(String lat, String lng) {
+    public static List getCampsitesFromDb() {
         List<CampsiteModel> campList = new ArrayList<>();
 
-        double pLat = Double.valueOf(lat) + minMax;
-        double mLat = Double.valueOf(lat) - minMax;
-        double pLng = Double.valueOf(lng) + minMax;
-        double mLng = Double.valueOf(lng) - minMax;
-
         String query =  "SELECT * " +
-                        "FROM campsites " +
-                        "WHERE lat (BETWEEN " + pLat +
-                        "AND " + mLat + ") AND (lng BETWEEN " +
-                        pLng + " AND " + mLng + ");";
+                        "FROM campsites ";
 
         ResultSet rs = createRS(query);
         System.out.println("Campsites retrieved");
