@@ -119,73 +119,44 @@ public class DBServlet extends HttpServlet {
         super.doPut(req, resp);
     }
 
+
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //super.doDelete(req, resp);
 
-        Map<String, String> params = getParameterMap(req);
-        
-        System.out.println("params: " + params.get("type"));
-        if(params.get("type").equals("comment")) {
-            System.out.println("params: " + params.get("commentId"));
+        String parameters = req.getQueryString();
+        System.out.println("params: " + req.getQueryString());
 
-            if (params.get("commentId") == null) {
+        Map<String, String> dataMap =   Splitter.on('&')
+                                        .trimResults()
+                                        .withKeyValueSeparator(
+                                            Splitter.on('=')
+                                            .limit(2)
+                                            .trimResults())
+                                        .split(parameters);
+
+        if(dataMap.get("type").equals("comment")) {
+            System.out.println("params: " + dataMap.get("commentId"));
+
+            if (dataMap.get("commentId") == null) {
                 System.out.println("CommentId is null");
             } else {
-                System.out.println("CommentId: " + params.get("commentId"));
-                //DBManager.deleteComment(params.get("commentId"));
+                System.out.println("CommentId: " + dataMap.get("commentId"));
+                DBManager.deleteComment(dataMap.get("commentId"));
                 resp.setStatus(200);
             }
         }
-        else if(params.get("type").equals("campsite")) {
-            System.out.println("params: " + params.get("campsiteId"));
+        else if(dataMap.get("type").equals("campsite")) {
+            System.out.println("params: " + dataMap.get("campsiteId"));
 
             if (true) {
                 System.out.println("CampsiteId is null");
             } else {
-                System.out.println("CampsiteId: " + params.get("campsiteId"));
-                //DBManager.deleteCampsite(params.get("campsiteId"));
+                System.out.println("CampsiteId: " + dataMap.get("campsiteId"));
+                DBManager.deleteCampsite(dataMap.get("commentId"));
                 resp.setStatus(200);
             }
         }
-}
-
-    public static Map<String, String> getParameterMap(HttpServletRequest request) {
-
-        BufferedReader br = null;
-        Map<String, String> dataMap = null;
-
-        try {
-
-            InputStreamReader reader = new InputStreamReader(
-                    request.getInputStream());
-            br = new BufferedReader(reader);
-
-            String data = br.readLine();
-            System.out.println("READLINE: " + data);
-            dataMap = Splitter.on('&')
-                    .trimResults()
-                    .withKeyValueSeparator(
-                            Splitter.on('=')
-                                    .limit(2)
-                                    .trimResults())
-                    .split(data);
-
-            return dataMap;
-        } catch (IOException ex) {
-
-
-        } finally {
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException ex) {
-
-                }
-            }
-        }
-
-        return dataMap;
     }
 
 }
