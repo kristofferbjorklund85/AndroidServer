@@ -124,7 +124,7 @@ public class DBServlet extends HttpServlet {
         //super.doDelete(req, resp);
 
         Map<String, String> params = getParameterMap(req);
-
+        
         System.out.println("params: " + params.get("type"));
         if(params.get("type").equals("comment")) {
             System.out.println("params: " + params.get("commentId"));
@@ -133,7 +133,7 @@ public class DBServlet extends HttpServlet {
                 System.out.println("CommentId is null");
             } else {
                 System.out.println("CommentId: " + params.get("commentId"));
-                DBManager.deleteComment(params.get("commentId"));
+                //DBManager.deleteComment(params.get("commentId"));
                 resp.setStatus(200);
             }
         }
@@ -144,7 +144,7 @@ public class DBServlet extends HttpServlet {
                 System.out.println("CampsiteId is null");
             } else {
                 System.out.println("CampsiteId: " + params.get("campsiteId"));
-                DBManager.deleteCampsite(params.get("campsiteId"));
+                //DBManager.deleteCampsite(params.get("campsiteId"));
                 resp.setStatus(200);
             }
         }
@@ -162,7 +162,7 @@ public class DBServlet extends HttpServlet {
             br = new BufferedReader(reader);
 
             String data = br.readLine();
-
+            System.out.println("READLINE: " + data);
             dataMap = Splitter.on('&')
                     .trimResults()
                     .withKeyValueSeparator(
