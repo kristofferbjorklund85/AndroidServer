@@ -174,4 +174,23 @@ public class DBManager {
         }
     }
 
+    public static void deleteComment(String commentId) {
+        Statement stmt = null;
+
+        try {
+            stmt = DBConMan.getConnection().createStatement();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        try {
+            stmt.executeUpdate("DELETE FROM comments WHERE campsiteid=" + commentId);
+            System.out.println("Updated database with new Campsite object.");
+        } catch (SQLException e) {
+            rollbackSQL(stmt);
+            System.out.println(e);
+        }
+        commitSQL(stmt);
+        System.out.println("Comment was deleted");
+    }
 }
+

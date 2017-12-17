@@ -118,6 +118,7 @@ public class DBServlet extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doDelete(req, resp);
-    }
+        //super.doDelete(req, resp);
+        DBManager.deleteComment(req.getParameter("commentId"));
+}
 }
