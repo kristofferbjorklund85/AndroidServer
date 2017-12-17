@@ -132,8 +132,8 @@ public class DBServlet extends HttpServlet {
             if (true) {
                 System.out.println("CommentId is null");
             } else {
-                System.out.println("CommentId: " + req.getParameter("commentId"));
-                DBManager.deleteComment(req.getParameter("commentId"));
+                System.out.println("CommentId: " + params.get("commentId"));
+                DBManager.deleteComment(params.get("commentId"));
                 resp.setStatus(200);
             }
         }
@@ -143,8 +143,8 @@ public class DBServlet extends HttpServlet {
             if (true) {
                 System.out.println("CampsiteId is null");
             } else {
-                System.out.println("CampsiteId: " + req.getParameter("campsiteId"));
-                DBManager.deleteCampsite(req.getParameter("campsiteId"));
+                System.out.println("CampsiteId: " + params.get("campsiteId"));
+                DBManager.deleteCampsite(params.get("campsiteId"));
                 resp.setStatus(200);
             }
         }
