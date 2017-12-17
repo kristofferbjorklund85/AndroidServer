@@ -12,9 +12,10 @@ public class CampsiteModel {
     String description;
     double rating;
     int views;
+    String username;
 
     public CampsiteModel(String id, String location, String name, double lat, double lng, String type, String fee,
-                         int capacity, String availability, String description, double rating, int views){
+                         int capacity, String availability, String description, double rating, int views, String username){
         this.id = id;
         this.location = location;
         this.name = name;
