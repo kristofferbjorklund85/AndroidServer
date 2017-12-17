@@ -25,7 +25,7 @@ public class DBServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //super.doGet(req, resp);
 
-        if(req.getParameter("type").equals("campsite")) {
+        if(req.getParameter("type").equals("commentcampsite")) {
         resp.setContentType("application/json");
 
         List list = DBManager.getCampsitesFromDb();
@@ -37,7 +37,7 @@ public class DBServlet extends HttpServlet {
         resp.setStatus(200);
         }
 
-        else if(req.getParameter("type").equals("comment")) {
+        else if(req.getParameter("type").equals("campsite")) {
         resp.setContentType("application/json");
 
         List list = DBManager.getCommentsFromDb(req.getParameter("campsiteid"));
