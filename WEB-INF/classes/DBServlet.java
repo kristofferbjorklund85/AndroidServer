@@ -126,16 +126,28 @@ public class DBServlet extends HttpServlet {
         Map<String, String> params = getParameterMap(req);
 
         System.out.println("params: " + params.get("type"));
-        System.out.println("params: " + params.get("commentId"));
+        if(params.get("type").equals("campsite")) {
+            System.out.println("params: " + params.get("commentId"));
 
-        if(true) {
-            System.out.println("CommentId is null");
-        } else {
-            System.out.println("CommentId: " + req.getParameter("commentId"));
-            DBManager.deleteComment(req.getParameter("commentId"));
-            resp.setStatus(200);
+            if (true) {
+                System.out.println("CommentId is null");
+            } else {
+                System.out.println("CommentId: " + req.getParameter("commentId"));
+                DBManager.deleteComment(req.getParameter("commentId"));
+                resp.setStatus(200);
+            }
         }
+        else if(params.get("type").equals("comment")) {
+            System.out.println("params: " + params.get("campsiteId"));
 
+            if (true) {
+                System.out.println("CampsiteId is null");
+            } else {
+                System.out.println("CampsiteId: " + req.getParameter("campsiteId"));
+                DBManager.deleteCampsite(req.getParameter("campsiteId"));
+                resp.setStatus(200);
+            }
+        }
 }
 
     public static Map<String, String> getParameterMap(HttpServletRequest request) {
@@ -168,7 +180,6 @@ public class DBServlet extends HttpServlet {
                 try {
                     br.close();
                 } catch (IOException ex) {
-
 
                 }
             }

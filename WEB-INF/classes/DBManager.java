@@ -108,7 +108,8 @@ public class DBManager {
                                                         rs.getString(9),
                                                         rs.getString(10),
                                                         rs.getDouble(11),
-                                                        rs.getInt(12));
+                                                        rs.getInt(12),
+                                                        rs.getString(13));
                 campList.add(cm);
                 System.out.println("Added campsite to campList");
             }
@@ -184,5 +185,27 @@ public class DBManager {
         }
 
     }
-}
+
+    public static void deleteCampsite(String campsiteId) {
+        Statement stmt = null;
+
+        try {
+            stmt = DBConMan.getConnection().createStatement();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        try {
+            stmt.executeUpdate("DELETE FROM campsites WHERE id=" + campsiteId);
+            System.out.println("Deleteing campsite: "+ campsiteId);
+        } catch (SQLException e) {
+            rollbackSQL(stmt);
+            System.out.println(e);
+        } finally {
+            commitSQL(stmt);
+            System.out.println("Campsite was deleted");
+        }
+
+    }
+
+    }
 

@@ -24,7 +24,8 @@ public class JSONManager {
                     jsonObj.getString("availability"),
                     jsonObj.getString("description"),
                     jsonObj.getDouble("rating"),
-                    jsonObj.getInt("views"));
+                    jsonObj.getInt("views"),
+                    jsonObj.getString("username"));
 
                 campList.add(cm);
                 System.out.println("created JSON Object from JsonArray.");
@@ -54,6 +55,7 @@ public class JSONManager {
             jsonObj.put("description", cm.description);
             jsonObj.put("rating", cm.rating);
             jsonObj.put("views", cm.views);
+            jsonObj.put("username", cm.username);
 
             jsonArray.put(jsonObj);
             System.out.println("Added JSON Object to array.");
@@ -73,6 +75,7 @@ public class JSONManager {
             jsonObj.put("date", c.date);
             jsonObj.put("username", c.username);
             jsonObj.put("commentbody", c.commentBody);
+            jsonObj.put("username", c.username);
 
             jsonArray.put(jsonObj);
             System.out.println("Added JSON Object to array.");

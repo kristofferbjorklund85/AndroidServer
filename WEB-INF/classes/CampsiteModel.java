@@ -28,5 +28,6 @@ public class CampsiteModel {
         this.description = description;
         this.rating = rating;
         this.views = views;
+        this.username = username;
     }
 }
