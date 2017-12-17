@@ -47,7 +47,7 @@ public class DBManager {
                 stmt.executeUpdate( "INSERT INTO campsites (id, location, name, lat, lng, type, fee, capacity, availability, " +
                                     "description, rating, views, username) VALUES ('" + cm.id + "', '" + cm.location + "', '" + cm.name +
                                     cm.lat + "', '" + cm.lng + "', '" + cm.type + "', '" + cm.fee + "', " + cm.capacity + ", '" + cm.availability +
-                                    "', '" + cm.description + "', '" + 0.0 + "', '" + 0 + "', '" + cm.username + "')");
+                                    "', '" + cm.description + "', '" + cm.rating + "', " + cm.views + ", '" + cm.username + "')");
                 System.out.println("Updated database with new Campsite object.");
             } catch (SQLException e) {
                 rollbackSQL(stmt);
