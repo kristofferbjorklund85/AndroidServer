@@ -7,8 +7,6 @@ import java.util.List;
 
 public class DBManager {
 
-    static double minMax = 0.15;
-
     public static void writeCommentToDb(List<CommentModel> list) {
         Statement stmt = null;
 
@@ -175,8 +173,8 @@ public class DBManager {
             System.out.println(e);
         }
         try {
-            stmt.executeUpdate("DELETE FROM comments WHERE campsiteid=" + commentId);
-            System.out.println("Updated database with new Campsite object.");
+            stmt.executeUpdate("DELETE FROM comments WHERE id=" + commentId);
+            System.out.println("Deleteing comment: "+ commentId);
         } catch (SQLException e) {
             rollbackSQL(stmt);
             System.out.println(e);
