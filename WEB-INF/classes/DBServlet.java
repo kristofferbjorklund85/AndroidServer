@@ -25,7 +25,7 @@ public class DBServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //super.doGet(req, resp);
 
-        if(req.getParameter("type").equals("comment")) {
+        if(req.getParameter("type").equals("campsite")) {
         resp.setContentType("application/json");
 
         List list = DBManager.getCampsitesFromDb();
@@ -37,7 +37,7 @@ public class DBServlet extends HttpServlet {
         resp.setStatus(200);
         }
 
-        else if(req.getParameter("type").equals("campsite")) {
+        else if(req.getParameter("type").equals("comment")) {
         resp.setContentType("application/json");
 
         List list = DBManager.getCommentsFromDb(req.getParameter("campsiteid"));
@@ -126,7 +126,7 @@ public class DBServlet extends HttpServlet {
         Map<String, String> params = getParameterMap(req);
 
         System.out.println("params: " + params.get("type"));
-        if(params.get("type").equals("campsite")) {
+        if(params.get("type").equals("comment")) {
             System.out.println("params: " + params.get("commentId"));
 
             if (true) {
@@ -137,7 +137,7 @@ public class DBServlet extends HttpServlet {
                 resp.setStatus(200);
             }
         }
-        else if(params.get("type").equals("comment")) {
+        else if(params.get("type").equals("campsite")) {
             System.out.println("params: " + params.get("campsiteId"));
 
             if (true) {
