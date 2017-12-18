@@ -116,7 +116,30 @@ public class DBServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPut(req, resp);
+        //super.doPut(req, resp);
+
+        String parameters = req.getQueryString();
+        System.out.println("params: " + req.getQueryString());
+
+        Map<String, String> dataMap =   Splitter.on('&')
+                .trimResults()
+                .withKeyValueSeparator(
+                        Splitter.on('=')
+                                .limit(2)
+                                .trimResults())
+                .split(parameters);
+
+        if(dataMap.get("type").equals("views")) {
+            System.out.println("params: " + dataMap.get("campsiteId"));
+
+            if (dataMap.get("campsiteId") == null) {
+                System.out.println("campsiteId is null");
+            } else {
+                System.out.println("Updating views");
+                DBManager.updateViews(dataMap.get("campsiteId"));
+                resp.setStatus(200);
+            }
+        }
     }
 
 

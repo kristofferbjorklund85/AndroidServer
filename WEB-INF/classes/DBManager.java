@@ -123,46 +123,27 @@ public class DBManager {
         return campList;
     }
 
-    public static ResultSet createRS(String query) {
-        Connection c = DBConMan.getConnection();
-        Statement s;
-        ResultSet rs = null;
+    public static void updateViews(String campsiteId) {
+        Statement stmt = null;
 
         try {
-            s = c.createStatement();
-            rs = s.executeQuery(query);
+            stmt = DBConMan.getConnection().createStatement();
         } catch (SQLException e) {
             System.out.println(e);
         }
-
-        return rs;
-    }
-
-    public static void closeRS(ResultSet rs) {
         try {
-            rs.close();
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-    }
-
-    public static void commitSQL(Statement stmt) {
-        try {
-            DBConMan.getConnection().commit();
-            stmt.close();
+            stmt.executeUpdate("UPDATE campsites SET views = views + 1 WHERE id='" + campsiteId + "'");
+            System.out.println("Updating campsite: "+ campsiteId);
         } catch (SQLException e) {
             rollbackSQL(stmt);
+            System.out.println("SQL Exception when UPDATING: " + e);
+            return;
+        } finally {
+            commitSQL(stmt);
+            System.out.println("Campsite was updated");
         }
-    }
 
-    public static void rollbackSQL(Statement stmt) {
-        try {
-            DBConMan.getConnection().rollback();
-            stmt.close();
-        }
-        catch(SQLException e) {
-            System.out.println(e);
-        }
+
     }
 
     public static void deleteComment(String commentId) {
@@ -208,5 +189,54 @@ public class DBManager {
 
     }
 
+    public static ResultSet createRS(String query) {
+        Connection c = DBConMan.getConnection();
+        Statement s;
+        ResultSet rs = null;
+
+        try {
+            s = c.createStatement();
+            rs = s.executeQuery(query);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return rs;
     }
+
+    public static void closeRS(ResultSet rs) {
+        try {
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public static void commitSQL(Statement stmt) {
+        try {
+            DBConMan.getConnection().commit();
+            stmt.close();
+        } catch (SQLException e) {
+            rollbackSQL(stmt);
+        }
+    }
+
+    public static void rollbackSQL(Statement stmt) {
+        try {
+            DBConMan.getConnection().rollback();
+            stmt.close();
+        }
+        catch(SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+
+
+
+
+
+}
+
+
 
