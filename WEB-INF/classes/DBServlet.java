@@ -129,6 +129,9 @@ public class DBServlet extends HttpServlet {
                                 .trimResults())
                 .split(parameters);
 
+        System.out.println("Type: " + dataMap.get("type"));
+        System.out.println("campsiteId: " + dataMap.get("campsiteId"));
+
         if(dataMap.get("type").equals("views")) {
             System.out.println("params: " + dataMap.get("campsiteId"));
 
@@ -139,7 +142,9 @@ public class DBServlet extends HttpServlet {
                 DBManager.updateViews(dataMap.get("campsiteId"));
                 resp.setStatus(200);
             }
+            return;
         }
+        System.out.println("type views outside");
     }
 
 
