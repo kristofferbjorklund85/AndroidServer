@@ -7,7 +7,7 @@ import org.json.*;
 public class JSONManager {
 
     //TODO se över denna metod, behöver vi den?
-    public static List CampsitefromJSON(JSONArray array) {
+    /*public static List CampsitefromJSON(JSONArray array) {
         List<CampsiteModel> campList = new ArrayList<>();
         for (int i = 0; i < array.length(); i++) {
             try {
@@ -28,14 +28,12 @@ public class JSONManager {
                     jsonObj.getString("username"));
 
                 campList.add(cm);
-                System.out.println("created JSON Object from JsonArray.");
             } catch (JSONException e) {
-                //TODO create a standardised method for logging
+                System.out.println(e.getMessage());
             }
         }
-        System.out.println("Return List with Jsonobjects.");
         return campList;
-    }
+    }*/
 
     public static JSONArray campsitesToJSON(List list) {
         JSONArray jsonArray = new JSONArray();
@@ -58,9 +56,7 @@ public class JSONManager {
             jsonObj.put("username", cm.username);
 
             jsonArray.put(jsonObj);
-            System.out.println("Added JSON Object to array.");
         }
-        System.out.println("Return Array with campsiteobjects.");
         return jsonArray;
     }
 
@@ -78,9 +74,7 @@ public class JSONManager {
             jsonObj.put("username", c.username);
 
             jsonArray.put(jsonObj);
-            System.out.println("Added JSON Object to array.");
         }
-        System.out.println("Return Array with commentobjects.");
         return jsonArray;
     }
 

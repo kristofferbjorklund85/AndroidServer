@@ -7,39 +7,40 @@ import java.util.List;
 
 public class DBManager {
 
-    public static void writeCommentToDb(List<CommentModel> list) {
+    public static boolean writeCommentToDb(List<CommentModel> list) {
         Statement stmt = null;
 
         try {
             stmt = DBConMan.getConnection().createStatement();
         } catch (SQLException e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
+            return false;
         }
 
         for(CommentModel cm : list) {
             try {
                 stmt.executeUpdate( "INSERT INTO comments (id, campsiteid, date, username, commentbody) VALUES " +
                         "('" + cm.id + "', '" + cm.campsiteId + "', '" + cm.date + "', '" + cm.username + "', '" + cm.commentBody + "')");
-                System.out.println("Updated database with new Comment object.");
             } catch (SQLException e) {
                 rollbackSQL(stmt);
-                System.out.println(e);
+                System.out.println(e.getMessage());
+                return false;
             }
             commitSQL(stmt);
         }
-
-
+        return true;
     }
 
     //TODO ändra från List till CampsiteModel-object istället?
-    public static void writeCampsiteToDb(List<CampsiteModel> list) {
+    public static boolean writeCampsiteToDb(List<CampsiteModel> list) {
 
         Statement stmt = null;
 
         try {
             stmt = DBConMan.getConnection().createStatement();
         } catch (SQLException e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
+            return false;
         }
 
         for(CampsiteModel cm : list) {
@@ -51,11 +52,12 @@ public class DBManager {
                 System.out.println("Updated database with new Campsite object.");
             } catch (SQLException e) {
                 rollbackSQL(stmt);
-                System.out.println(e);
+                System.out.println(e.getMessage());
+                return false;
             }
             commitSQL(stmt);
         }
-
+        return true;
     }
 
     public static List getCommentsFromDb(String campsiteId) {
@@ -64,7 +66,6 @@ public class DBManager {
         String query = "SELECT * FROM comments where campsiteid=" + campsiteId;
 
         ResultSet rs = createRS(query);
-        System.out.println("Comments retrieved");
 
         try {
             while(rs.next()) {
@@ -74,15 +75,13 @@ public class DBManager {
                         rs.getString(4),
                         rs.getString(5));
                 commentList.add(cm);
-                System.out.println("Added comment to commentList");
             }
         } catch (SQLException e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         } finally {
             closeRS(rs);
         }
 
-        System.out.println("Returning commentList");
         return commentList;
     }
 
@@ -93,7 +92,6 @@ public class DBManager {
                         "FROM campsites ";
 
         ResultSet rs = createRS(query);
-        System.out.println("Campsites retrieved");
 
         try {
             while(rs.next()) {
@@ -111,82 +109,76 @@ public class DBManager {
                                                         rs.getInt(12),
                                                         rs.getString(13));
                 campList.add(cm);
-                System.out.println("Added campsite to campList");
             }
         } catch (SQLException e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         } finally {
             closeRS(rs);
         }
-
-        System.out.println("Returning campList");
         return campList;
     }
 
-    public static void updateViews(String campsiteId) {
+    public static boolean updateViews(String campsiteId) {
         Statement stmt = null;
 
         try {
             stmt = DBConMan.getConnection().createStatement();
         } catch (SQLException e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
+            return false;
         }
         try {
             stmt.executeUpdate("UPDATE campsites SET views = views + 1 WHERE id='" + campsiteId + "'");
-            System.out.println("Updating campsite: "+ campsiteId);
         } catch (SQLException e) {
             rollbackSQL(stmt);
-            System.out.println("SQL Exception when UPDATING: " + e);
-            return;
+            System.out.println("SQL Exception when UPDATING: " + e.getMessage());
+            return false;
         } finally {
             commitSQL(stmt);
-            System.out.println("Campsite was updated");
         }
-
-
+        return true;
     }
 
-    public static void deleteComment(String commentId) {
+    public static boolean deleteComment(String commentId) {
         Statement stmt = null;
 
         try {
             stmt = DBConMan.getConnection().createStatement();
         } catch (SQLException e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
+            return false;
         }
         try {
             stmt.executeUpdate("DELETE FROM comments WHERE id='" + commentId + "'");
-            System.out.println("Deleteing comment: "+ commentId);
         } catch (SQLException e) {
             rollbackSQL(stmt);
-            System.out.println("SQL Exception when DELETING: " + e);
-            return;
+            System.out.println("SQL Exception when DELETING: " + e.getMessage());
+            return false;
         } finally {
             commitSQL(stmt);
-            System.out.println("Comment was deleted");
         }
-
+        return true;
     }
 
-    public static void deleteCampsite(String campsiteId) {
+    public static boolean deleteCampsite(String campsiteId) {
         Statement stmt = null;
 
         try {
             stmt = DBConMan.getConnection().createStatement();
         } catch (SQLException e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
+            return false;
         }
         try {
             stmt.executeUpdate("DELETE FROM campsites WHERE id=" + campsiteId);
-            System.out.println("Deleteing campsite: "+ campsiteId);
         } catch (SQLException e) {
             rollbackSQL(stmt);
-            System.out.println(e);
+            System.out.println(e.getMessage());
+            return false;
         } finally {
             commitSQL(stmt);
-            System.out.println("Campsite was deleted");
         }
-
+        return true;
     }
 
     public static ResultSet createRS(String query) {
@@ -198,7 +190,7 @@ public class DBManager {
             s = c.createStatement();
             rs = s.executeQuery(query);
         } catch (SQLException e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
 
         return rs;
@@ -208,7 +200,7 @@ public class DBManager {
         try {
             rs.close();
         } catch (SQLException e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -217,6 +209,7 @@ public class DBManager {
             DBConMan.getConnection().commit();
             stmt.close();
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
             rollbackSQL(stmt);
         }
     }
@@ -227,7 +220,7 @@ public class DBManager {
             stmt.close();
         }
         catch(SQLException e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
     }
 

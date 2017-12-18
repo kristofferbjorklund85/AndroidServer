@@ -17,16 +17,11 @@ public class DBConMan {
         try{
             con = DriverManager.getConnection(DB_CONN_STR);
             con.setAutoCommit(false);
-            System.out.println("We have a connection");
         } catch(Exception e){
             System.err.println("Error getting connection to " +
                     DB_CONN_STR);
         }
     }
-
-/*    public static boolean hasConnection(){
-        return con != null;
-    }*/
 
     public static Connection getConnection() {
         return con;

@@ -18,7 +18,7 @@ public class Seed {
             // create a new table
             stmt.execute(sql1);
             stmt.execute(sql2);
-            System.out.println("Dropped table");
+            System.out.println("Dropped tables");
         } catch(SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -55,7 +55,7 @@ public class Seed {
             // create a new table
             stmt.execute(campsiteTablesql);
             stmt.execute(commentTablesql);
-            System.out.println("Table created");
+            System.out.println("Tables created");
         } catch(SQLException e) {
             System.out.println(e.getMessage());
         }

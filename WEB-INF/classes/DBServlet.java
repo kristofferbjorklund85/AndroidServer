@@ -34,6 +34,7 @@ public class DBServlet extends HttpServlet {
 
         out.print(jRay);
         out.close();
+        System.out.println("Returning campsites");
         resp.setStatus(200);
         }
 
@@ -47,6 +48,7 @@ public class DBServlet extends HttpServlet {
 
         out.print(jRay);
         out.close();
+        System.out.println("Returning Comments");
         resp.setStatus(200);
         }
 
@@ -69,9 +71,11 @@ public class DBServlet extends HttpServlet {
             BufferedReader reader = req.getReader();
             while ((line = reader.readLine()) != null)
                 jb.append(line);
-        } catch (Exception e) { /*report an error*/ }
-
-        System.out.println("\n" + jb.toString());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            resp.setStatus(400);
+            return;
+        }
 
         //Create List of campsiteModels from REQ
         if(type.equals("campsite")) {
@@ -81,12 +85,15 @@ public class DBServlet extends HttpServlet {
             cm = gson.fromJson(jb.toString(), CampsiteModel.class);
         } catch (JSONException e) {
             // crash and burn
+            System.out.println(e.getMessage());
+            resp.setStatus(400);
             throw new IOException("Error parsing JSON request string");
         }
 
         //Write List of CampsiteModels to DB
         campList.add(cm);
         DBManager.writeCampsiteToDb(campList);
+            System.out.println("Added campsite to DB");
         resp.setStatus(200);
         }
 
@@ -98,19 +105,18 @@ public class DBServlet extends HttpServlet {
             comment = gson.fromJson(jb.toString(), CommentModel.class);
         } catch (JSONException e) {
             // crash and burn
+            System.out.println(e.getMessage());
+            resp.setStatus(400);
             throw new IOException("Error parsing JSON request string");
         }
-
-        System.out.println("id: " + comment.id);
-        System.out.println("csid: " + comment.campsiteId);
-        System.out.println("date: " + comment.date);
-        System.out.println("user: " + comment.username);
-        System.out.println("body: " + comment.commentBody);
-
         //Write List of CommentModels to DB
         commentsList.add(comment);
         DBManager.writeCommentToDb(commentsList);
+        System.out.println("Added comment to DB");
         resp.setStatus(200);
+        } else {
+            System.out.println("Error in POST: " + jb.toString());
+            resp.setStatus(400);
         }
     }
 
@@ -119,7 +125,6 @@ public class DBServlet extends HttpServlet {
         //super.doPut(req, resp);
 
         String parameters = req.getQueryString();
-        System.out.println("params: " + req.getQueryString());
 
         Map<String, String> dataMap =   Splitter.on('&')
                 .trimResults()
@@ -129,22 +134,22 @@ public class DBServlet extends HttpServlet {
                                 .trimResults())
                 .split(parameters);
 
-        System.out.println("Type: " + dataMap.get("type"));
-        System.out.println("campsiteId: " + dataMap.get("campsiteId"));
-
         if(dataMap.get("type").equals("views")) {
-            System.out.println("params: " + dataMap.get("campsiteId"));
-
-            if (dataMap.get("campsiteId") == null) {
-                System.out.println("campsiteId is null");
+            if (dataMap.get("campsiteId") == null || dataMap.get("campsiteId").equals("")) {
+                System.out.println("campsiteId is null or empty");
+                resp.setStatus(400);
             } else {
-                System.out.println("Updating views");
-                DBManager.updateViews(dataMap.get("campsiteId"));
-                resp.setStatus(200);
+                if(DBManager.updateViews(dataMap.get("campsiteId"))) {
+                    System.out.println("Views updated for campsiteId: " + dataMap.get("campsiteId"));
+                    resp.setStatus(200);
+                } else {
+                    resp.setStatus(400);
+                }
             }
-            return;
+        } else {
+            System.out.println("Error in PUT-params: " + req.getQueryString());
+            resp.setStatus(400);
         }
-        System.out.println("type views outside");
     }
 
 
@@ -164,27 +169,32 @@ public class DBServlet extends HttpServlet {
                                         .split(parameters);
 
         if(dataMap.get("type").equals("comment")) {
-            System.out.println("params: " + dataMap.get("commentId"));
-
-            if (dataMap.get("commentId") == null) {
-                System.out.println("CommentId is null");
+            if (dataMap.get("commentId") == null || dataMap.get("commentId").equals("")) {
+                System.out.println("CommentId is null or empty");
+                resp.setStatus(400);
             } else {
-                System.out.println("CommentId: " + dataMap.get("commentId"));
-                DBManager.deleteComment(dataMap.get("commentId"));
-                resp.setStatus(200);
+                if(DBManager.deleteComment(dataMap.get("commentId"))) {
+                    System.out.println("Comment deleted.");
+                    resp.setStatus(200);
+                } else {
+                    resp.setStatus(400);
+                }
             }
-        }
-        else if(dataMap.get("type").equals("campsite")) {
-            System.out.println("params: " + dataMap.get("campsiteId"));
-
-            if (dataMap.get("campsiteId") == null) {
-                System.out.println("CampsiteId is null");
+        } else if(dataMap.get("type").equals("campsite")) {
+            if (dataMap.get("campsiteId") == null || dataMap.get("campsiteId").equals("")) {
+                System.out.println("campsiteId is null or empty");
+                resp.setStatus(400);
             } else {
-                System.out.println("CampsiteId: " + dataMap.get("campsiteId"));
-                DBManager.deleteCampsite(dataMap.get("campsiteId"));
-                resp.setStatus(200);
+                if(DBManager.deleteCampsite(dataMap.get("campsiteId"))) {
+                    System.out.println("Campsite deleted.");
+                    resp.setStatus(200);
+                } else {
+                    resp.setStatus(400);
+                }
             }
+        } else {
+            System.out.println("Error in DELETE-params: " + req.getQueryString());
+            resp.setStatus(400);
         }
     }
-
 }
