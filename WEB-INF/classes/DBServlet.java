@@ -149,11 +149,11 @@ public class DBServlet extends HttpServlet {
         else if(dataMap.get("type").equals("campsite")) {
             System.out.println("params: " + dataMap.get("campsiteId"));
 
-            if (true) {
+            if (dataMap.get("campsiteId") == null) {
                 System.out.println("CampsiteId is null");
             } else {
                 System.out.println("CampsiteId: " + dataMap.get("campsiteId"));
-                DBManager.deleteCampsite(dataMap.get("commentId"));
+                DBManager.deleteCampsite(dataMap.get("campsiteId"));
                 resp.setStatus(200);
             }
         }
