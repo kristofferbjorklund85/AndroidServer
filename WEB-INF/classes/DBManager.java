@@ -213,10 +213,12 @@ public class DBManager {
             return false;
         }
         try {
-            stmt.executeUpdate("DELETE FROM campsites WHERE id=" + campsiteId);
+            stmt.executeUpdate("DELETE FROM campsites WHERE id='" + campsiteId + "'");
+            stmt.executeUpdate("DELETE FROM comments WHERE campsiteid='" + campsiteId + "'");
         } catch (SQLException e) {
             rollbackSQL(stmt);
             System.out.println(e.getMessage());
+            System.out.println("campsiteId: " + campsiteId);
             return false;
         } finally {
             commitSQL(stmt);

@@ -96,7 +96,6 @@ public class DBServlet extends HttpServlet {
             return;
         }
 
-
         //Return list of comments or campsites
         PrintWriter out = resp.getWriter();
         out.print(jRay);
