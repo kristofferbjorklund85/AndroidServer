@@ -89,6 +89,20 @@ public class DBServlet extends HttpServlet {
             jRay = JSONManager.commentsToJSON(list);
         }
 
+        //Create List of Ratings
+        else if(req.getParameter("type").equals("rating")) {
+            resp.setContentType("application/json");
+
+            List list = DBManager.getRatingFromDb(req.getParameter("campsiteId"));
+            if(list.isEmpty()) {
+                System.out.println("Found no rating");
+                resp.setStatus(404);
+                return;
+            }
+
+            jRay = JSONManager.ratingToJSON(list);
+        }
+
         //In case of invalid request
         else {
             System.out.println("Invalid request; QueryString: " + req.getQueryString());
@@ -177,6 +191,22 @@ public class DBServlet extends HttpServlet {
 
             DBManager.writeUserToDb(user);
             System.out.println("Added User to DB");
+            resp.setStatus(200);
+        }
+
+        //Create or update Rating
+        else if(type.equals("rating")) {
+            Rating rating;
+            try {
+                rating = gson.fromJson(jb.toString(), Rating.class);
+            } catch (JSONException e) {
+                System.out.println("Error creating new user" + e.getMessage());
+                resp.setStatus(400);
+                throw new IOException("Error parsing JSON request string");
+            }
+
+            DBManager.writeRatingToDb(rating, req.getParameter("campsiteId"));
+            System.out.println("Added rating to campsite");
             resp.setStatus(200);
         }
 

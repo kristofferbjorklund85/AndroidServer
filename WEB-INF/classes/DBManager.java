@@ -77,8 +77,40 @@ public class DBManager {
             rollbackSQL(stmt);
             System.out.println(e.getMessage());
             return false;
+        } finally {
+            commitSQL(stmt);
         }
-        commitSQL(stmt);
+
+        return true;
+    }
+
+    public static boolean writeRatingToDb(Rating rating, String campsiteId) {
+        Statement stmt = null;
+
+        try {
+            stmt = DBConMan.getConnection().createStatement();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+
+        String ratingTable = "CREATE TABLE IF NOT EXISTS " + campsiteId + " ( userid text PRIMARY KEY, rating int NOT NULL);";
+        String ratingInput = "INSERT INTO " + campsiteId + " VALUES('" + rating.userId + "', " + rating.rating + ");";
+
+        try {
+            stmt.executeUpdate(ratingTable);
+            stmt.executeUpdate(ratingInput);
+        } catch (SQLException e) {
+            try {
+                stmt.executeUpdate("UPDATE " + campsiteId + " SET rating = " + rating.rating + " WHERE userid='" + rating.userId + "'");
+            } catch (SQLException e2) {
+                rollbackSQL(stmt);
+                System.out.println(e2.getMessage());
+                return false;
+            }
+        } finally {
+            commitSQL(stmt);
+        }
 
         return true;
     }
@@ -159,6 +191,28 @@ public class DBManager {
         }
 
         return user;
+    }
+
+    public static List getRatingFromDb(String campsiteId) {
+        List<Rating> ratingList = new ArrayList<>();
+
+        String query = "SELECT * FROM " + campsiteId;
+
+        ResultSet rs = createRS(query);
+
+        try {
+            while(rs.next()) {
+                Rating rat = new Rating(rs.getString(1),
+                        rs.getInt(2));
+                ratingList.add(rat);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            closeRS(rs);
+        }
+
+        return ratingList;
     }
 
     public static boolean updateViews(String campsiteId) {

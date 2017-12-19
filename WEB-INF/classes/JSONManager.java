@@ -86,4 +86,19 @@ public class JSONManager {
         return userJSON;
     }
 
+    public static JSONArray ratingToJSON(List list) {
+        JSONArray jsonArray = new JSONArray();
+
+        for (int i = 0; i < list.size(); i++) {
+            Rating rat = (Rating) list.get(i);
+            JSONObject jsonObj = new JSONObject();
+            jsonObj.put("userid", rat.userId);
+            jsonObj.put("rating", rat.rating);
+
+            jsonArray.put(jsonObj);
+        }
+        return jsonArray;
+
+    }
+
 }

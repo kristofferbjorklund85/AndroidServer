@@ -39,7 +39,6 @@ public class Seed {
                                 + "	capacity text,\n"
                                 + "	availability text,\n"
                                 + "	description text,\n"
-                                + " rating REAL,\n"
                                 + " views int,\n"
                                 + " username text\n"
                                 + ");";
