@@ -60,29 +60,27 @@ public class DBManager {
         return true;
     }
 
-    public static List getCommentsFromDb(String campsiteId) {
-        List<CommentModel> commentList = new ArrayList<>();
-
-        String query = "SELECT * FROM comments where campsiteid=" + campsiteId;
-
-        ResultSet rs = createRS(query);
+    public static boolean writeUserToDb(User user) {
+        Statement stmt = null;
 
         try {
-            while(rs.next()) {
-                CommentModel cm = new CommentModel(rs.getString(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getString(4),
-                        rs.getString(5));
-                commentList.add(cm);
-            }
+            stmt = DBConMan.getConnection().createStatement();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        } finally {
-            closeRS(rs);
+            return false;
         }
 
-        return commentList;
+        try {
+            stmt.executeUpdate( "INSERT INTO users VALUES " +
+                    "('" + user.id + "', '" + user.username + "', '" + user.password + "')");
+        } catch (SQLException e) {
+            rollbackSQL(stmt);
+            System.out.println(e.getMessage());
+            return false;
+        }
+        commitSQL(stmt);
+
+        return true;
     }
 
     public static List getCampsitesFromDb() {
@@ -116,6 +114,51 @@ public class DBManager {
             closeRS(rs);
         }
         return campList;
+    }
+
+    public static List getCommentsFromDb(String campsiteId) {
+        List<CommentModel> commentList = new ArrayList<>();
+
+        String query = "SELECT * FROM comments where campsiteid=" + campsiteId;
+
+        ResultSet rs = createRS(query);
+
+        try {
+            while(rs.next()) {
+                CommentModel cm = new CommentModel(rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5));
+                commentList.add(cm);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            closeRS(rs);
+        }
+
+        return commentList;
+    }
+
+    public static User getUserFromDb(String username, String password) {
+        User user = null;
+
+        String query = "SELECT * FROM users where username=" + username + " AND password=" + password;
+
+        ResultSet rs = createRS(query);
+
+        try {
+            user = new User(rs.getString(1),
+                    rs.getString(2),
+                    rs.getString(3));
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            closeRS(rs);
+        }
+
+        return user;
     }
 
     public static boolean updateViews(String campsiteId) {
@@ -196,7 +239,7 @@ public class DBManager {
         return rs;
     }
 
-    public static void closeRS(ResultSet rs) {
+    public static void closeRS(ResultSet rs) throws NullPointerException {
         try {
             rs.close();
         } catch (SQLException e) {

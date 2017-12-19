@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.Gson;
 import org.json.*;
 
 
@@ -76,6 +77,13 @@ public class JSONManager {
             jsonArray.put(jsonObj);
         }
         return jsonArray;
+    }
+
+    public static String userToJSON(User user) {
+        Gson gson = new Gson();
+        String userJSON = gson.toJson(user);
+
+        return userJSON;
     }
 
 }
