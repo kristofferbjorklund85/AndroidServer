@@ -214,6 +214,7 @@ public class DBManager {
         }
         try {
             stmt.executeUpdate("DELETE FROM campsites WHERE id='" + campsiteId + "'");
+            //Delete Associated comments to campsite
             stmt.executeUpdate("DELETE FROM comments WHERE campsiteid='" + campsiteId + "'");
         } catch (SQLException e) {
             rollbackSQL(stmt);
