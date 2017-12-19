@@ -94,7 +94,11 @@ public class DBManager {
             return false;
         }
 
-        String ratingTable = "CREATE TABLE IF NOT EXISTS " + campsiteId + " ( userid text PRIMARY KEY, rating int NOT NULL);";
+        System.out.println("UserID: " + rating.userId);
+        System.out.println("Rating: " + rating.rating);
+
+
+        String ratingTable = "CREATE TABLE IF NOT EXISTS " + campsiteId + " ( userid text NOT NULL PRIMARY KEY, rating int NOT NULL);";
         String ratingInput = "INSERT INTO " + campsiteId + " VALUES('" + rating.userId + "', " + rating.rating + ");";
 
         try {

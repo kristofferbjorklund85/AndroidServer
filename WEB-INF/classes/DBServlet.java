@@ -114,7 +114,7 @@ public class DBServlet extends HttpServlet {
         PrintWriter out = resp.getWriter();
         out.print(jRay);
         out.close();
-        System.out.println("Returning campsites");
+        System.out.println("Returning");
         resp.setStatus(200);
 
     }
@@ -135,6 +135,7 @@ public class DBServlet extends HttpServlet {
             BufferedReader reader = req.getReader();
             while ((line = reader.readLine()) != null)
                 jb.append(line);
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
             resp.setStatus(400);
@@ -197,10 +198,11 @@ public class DBServlet extends HttpServlet {
         //Create or update Rating
         else if(type.equals("rating")) {
             Rating rating;
+            System.out.println(jb.toString());
             try {
                 rating = gson.fromJson(jb.toString(), Rating.class);
             } catch (JSONException e) {
-                System.out.println("Error creating new user" + e.getMessage());
+                System.out.println("Error inputting rating" + e.getMessage());
                 resp.setStatus(400);
                 throw new IOException("Error parsing JSON request string");
             }
