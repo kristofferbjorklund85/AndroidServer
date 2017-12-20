@@ -72,7 +72,6 @@ public class JSONManager {
             jsonObj.put("userId", c.userId);
             jsonObj.put("username", c.username);
             jsonObj.put("commentbody", c.commentBody);
-            jsonObj.put("username", c.username);
 
             jsonArray.put(jsonObj);
         }
