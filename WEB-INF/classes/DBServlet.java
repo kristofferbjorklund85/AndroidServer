@@ -66,7 +66,7 @@ public class DBServlet extends HttpServlet {
             List list = DBManager.getCampsitesFromDb();
             if(list.isEmpty()) {
                 System.out.println("Found no campsites");
-                resp.setStatus(404);
+                resp.setStatus(200);
                 return;
             }
 
@@ -82,7 +82,7 @@ public class DBServlet extends HttpServlet {
             List list = DBManager.getCommentsFromDb(req.getParameter("campsiteid"));
             if(list.isEmpty()) {
                 System.out.println("Found no comments");
-                resp.setStatus(404);
+                resp.setStatus(200);
                 return;
             }
 
