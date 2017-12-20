@@ -207,7 +207,7 @@ public class DBManager {
         try {
             while(rs.next()) {
                 Rating rat = new Rating(rs.getString(1),
-                        rs.getInt(2));
+                                        rs.getInt(2));
                 ratingList.add(rat);
             }
         } catch (SQLException e) {

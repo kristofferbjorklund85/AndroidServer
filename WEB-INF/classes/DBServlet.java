@@ -96,7 +96,7 @@ public class DBServlet extends HttpServlet {
             List list = DBManager.getRatingFromDb(req.getParameter("campsiteId"));
             if(list.isEmpty()) {
                 System.out.println("Found no rating");
-                resp.setStatus(404);
+                resp.setStatus(200);
                 return;
             }
 

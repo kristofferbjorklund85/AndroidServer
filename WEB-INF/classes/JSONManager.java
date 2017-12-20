@@ -92,7 +92,7 @@ public class JSONManager {
         for (int i = 0; i < list.size(); i++) {
             Rating rat = (Rating) list.get(i);
             JSONObject jsonObj = new JSONObject();
-            jsonObj.put("userid", rat.userId);
+            jsonObj.put("userId", rat.userId);
             jsonObj.put("rating", rat.rating);
 
             jsonArray.put(jsonObj);
