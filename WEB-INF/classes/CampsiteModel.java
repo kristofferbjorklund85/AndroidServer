@@ -10,12 +10,11 @@ public class CampsiteModel {
     int capacity;
     String availability;
     String description;
-    double rating;
     int views;
-    String username;
+    String userId;
 
     public CampsiteModel(String id, String location, String name, double lat, double lng, String type, String fee,
-                         int capacity, String availability, String description, double rating, int views, String username){
+                         int capacity, String availability, String description, int views, String userId){
         this.id = id;
         this.location = location;
         this.name = name;
@@ -26,8 +25,7 @@ public class CampsiteModel {
         this.capacity = capacity;
         this.availability = availability;
         this.description = description;
-        this.rating = rating;
         this.views = views;
-        this.username = username;
+        this.userId = userId;
     }
 }

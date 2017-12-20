@@ -52,9 +52,8 @@ public class JSONManager {
             jsonObj.put("capacity", cm.capacity);
             jsonObj.put("availability", cm.availability);
             jsonObj.put("description", cm.description);
-            jsonObj.put("rating", cm.rating);
             jsonObj.put("views", cm.views);
-            jsonObj.put("username", cm.username);
+            jsonObj.put("userId", cm.userId);
 
             jsonArray.put(jsonObj);
         }
@@ -70,6 +69,7 @@ public class JSONManager {
             jsonObj.put("id", c.id);
             jsonObj.put("campsiteid", c.campsiteId);
             jsonObj.put("date", c.date);
+            jsonObj.put("userId", c.userId);
             jsonObj.put("username", c.username);
             jsonObj.put("commentbody", c.commentBody);
             jsonObj.put("username", c.username);

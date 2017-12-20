@@ -19,8 +19,8 @@ public class DBManager {
 
         for(CommentModel cm : list) {
             try {
-                stmt.executeUpdate( "INSERT INTO comments (id, campsiteid, date, username, commentbody) VALUES " +
-                        "('" + cm.id + "', '" + cm.campsiteId + "', '" + cm.date + "', '" + cm.username + "', '" + cm.commentBody + "')");
+                stmt.executeUpdate( "INSERT INTO comments (id, campsiteid, date, userId, username, commentbody) VALUES " +
+                        "('" + cm.id + "', '" + cm.campsiteId + "', '" + cm.date + "', '" + cm.userId + "', '" + cm.username + "', '" + cm.commentBody + "')");
             } catch (SQLException e) {
                 rollbackSQL(stmt);
                 System.out.println(e.getMessage());
@@ -46,9 +46,9 @@ public class DBManager {
         for(CampsiteModel cm : list) {
             try {
                 stmt.executeUpdate( "INSERT INTO campsites (id, location, name, lat, lng, type, fee, capacity, availability, " +
-                                    "description, rating, views, username) VALUES ('" + cm.id + "', '" + cm.location + "', '" + cm.name + "', '" +
+                                    "description, views, username) VALUES ('" + cm.id + "', '" + cm.location + "', '" + cm.name + "', '" +
                                     cm.lat + "', '" + cm.lng + "', '" + cm.type + "', '" + cm.fee + "', '" + cm.capacity + "', '" + cm.availability +
-                                    "', '" + cm.description + "', '" + cm.rating + "', " + cm.views + ", '" + cm.username + "')");
+                                    "', '" + cm.description + "', " + cm.views + ", '" + cm.userId + "')");
                 System.out.println("Updated database with new Campsite object.");
             } catch (SQLException e) {
                 rollbackSQL(stmt);
@@ -139,9 +139,8 @@ public class DBManager {
                                                         rs.getInt(8),
                                                         rs.getString(9),
                                                         rs.getString(10),
-                                                        rs.getDouble(11),
-                                                        rs.getInt(12),
-                                                        rs.getString(13));
+                                                        rs.getInt(11),
+                                                        rs.getString(12));
                 campList.add(cm);
             }
         } catch (SQLException e) {
@@ -165,7 +164,8 @@ public class DBManager {
                         rs.getString(2),
                         rs.getString(3),
                         rs.getString(4),
-                        rs.getString(5));
+                        rs.getString(5),
+                        rs.getString(6));
                 commentList.add(cm);
             }
         } catch (SQLException e) {

@@ -40,7 +40,7 @@ public class Seed {
                                 + "	availability text,\n"
                                 + "	description text,\n"
                                 + " views int,\n"
-                                + " username text\n"
+                                + " userId text\n"
                                 + ");";
 
         String commentTableSQL  = "CREATE TABLE IF NOT EXISTS comments (\n"
@@ -48,6 +48,7 @@ public class Seed {
                                 + " campsiteid text NOT NULL,\n"
                                 + " date text NOT NULL,\n"
                                 + " username text NOT NULL,\n"
+                                + " userId text NOT NULL, \n"
                                 + " commentbody text NOT NULL,\n"
                                 + "PRIMARY KEY (id, campsiteid));";
 
@@ -77,13 +78,13 @@ public class Seed {
             String id2 = UUID.randomUUID().toString();
             String id3 = UUID.randomUUID().toString();
 
-            String[] campsiteSQL = {"INSERT INTO campsites VALUES('" + id1 + "','Lindholmen', 'Gothenburg', '-31.952854', '115.857342', 'School', 'Free', '30', 'All year', 'Very nice place, lots of cool people', '3.5', '312', 'JanBanan')",
-                                    "INSERT INTO campsites VALUES('" + id2 + "','Lindholmen', 'Gothenburg', '-32.952854', '116.857342', 'School', 'Free', '30', 'All year', 'Very nice place, lots of cool people', '3.5', '4535', 'JanBanan')",
-                                    "INSERT INTO campsites VALUES('" + id3 + "','Lindholmen', 'Gothenburg', '-33.952854', '117.857342', 'School', 'Free', '30', 'All year', 'Very nice place, lots of cool people', '3.5', '312342', 'JanBanan')"};
+            String[] campsiteSQL = {"INSERT INTO campsites VALUES('" + id1 + "','Lindholmen', 'Gothenburg', '-31.952854', '115.857342', 'School', 'Free', '30', 'All year', 'Very nice place, lots of cool people', '0', '1348564')",
+                                    "INSERT INTO campsites VALUES('" + id2 + "','Lindholmen', 'Gothenburg', '-32.952854', '116.857342', 'School', 'Free', '30', 'All year', 'Very nice place, lots of cool people', '1', '1348564')",
+                                    "INSERT INTO campsites VALUES('" + id3 + "','Lindholmen', 'Gothenburg', '-33.952854', '117.857342', 'School', 'Free', '30', 'All year', 'Very nice place, lots of cool people', '1', '1348564')"};
 
-            String[] commentSQL = { "INSERT INTO comments VALUES('" + UUID.randomUUID().toString() + "','" + id1 + "', '2017-05-24', 'JanBanan','Good stuff yo!')",
-                                    "INSERT INTO comments VALUES('" + UUID.randomUUID().toString() + "','" + id1 + "', '2017-05-24', 'JanBanan','Good stuff yo!')",
-                                    "INSERT INTO comments VALUES('" + UUID.randomUUID().toString() + "','" + id1 + "', '2017-05-24', 'JanBanan','Good stuff yo!')"};
+            String[] commentSQL = { "INSERT INTO comments VALUES('" + UUID.randomUUID().toString() + "','" + id1 + "', '2017-05-24', 'JanBanan', '1348564', 'Good stuff yo!')",
+                                    "INSERT INTO comments VALUES('" + UUID.randomUUID().toString() + "','" + id1 + "', '2017-05-24', 'JanBanan', '1348564', 'Good stuff yo!')",
+                                    "INSERT INTO comments VALUES('" + UUID.randomUUID().toString() + "','" + id1 + "', '2017-05-24', 'JanBanan', '1348564', 'Good stuff yo!')"};
 
             String userSQL = "INSERT INTO users VALUES('1', 't', 't')";
 
