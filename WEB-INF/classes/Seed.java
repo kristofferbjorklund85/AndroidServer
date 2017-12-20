@@ -47,8 +47,8 @@ public class Seed {
                                 + "	id text NOT NULL,\n"
                                 + " campsiteid text NOT NULL,\n"
                                 + " date text NOT NULL,\n"
-                                + " username text NOT NULL,\n"
                                 + " userId text NOT NULL, \n"
+                                + " username text NOT NULL,\n"
                                 + " commentbody text NOT NULL,\n"
                                 + "PRIMARY KEY (id, campsiteid));";
 
@@ -82,9 +82,9 @@ public class Seed {
                                     "INSERT INTO campsites VALUES('" + id2 + "','Lindholmen', 'Gothenburg', '-32.952854', '116.857342', 'School', 'Free', '30', 'All year', 'Very nice place, lots of cool people', '1', '1348564')",
                                     "INSERT INTO campsites VALUES('" + id3 + "','Lindholmen', 'Gothenburg', '-33.952854', '117.857342', 'School', 'Free', '30', 'All year', 'Very nice place, lots of cool people', '1', '1348564')"};
 
-            String[] commentSQL = { "INSERT INTO comments VALUES('" + UUID.randomUUID().toString() + "','" + id1 + "', '2017-05-24', 'JanBanan', '1348564', 'Good stuff yo!')",
-                                    "INSERT INTO comments VALUES('" + UUID.randomUUID().toString() + "','" + id1 + "', '2017-05-24', 'JanBanan', '1348564', 'Good stuff yo!')",
-                                    "INSERT INTO comments VALUES('" + UUID.randomUUID().toString() + "','" + id1 + "', '2017-05-24', 'JanBanan', '1348564', 'Good stuff yo!')"};
+            String[] commentSQL = { "INSERT INTO comments VALUES('" + UUID.randomUUID().toString() + "','" + id1 + "', '2017-05-24', '1348564', 'JanBanan', 'Good stuff yo!')",
+                                    "INSERT INTO comments VALUES('" + UUID.randomUUID().toString() + "','" + id1 + "', '2017-05-24', '1348564', 'JanBanan', 'Good stuff yo!')",
+                                    "INSERT INTO comments VALUES('" + UUID.randomUUID().toString() + "','" + id1 + "', '2017-05-24', '1348564', 'JanBanan', 'Good stuff yo!')"};
 
             String userSQL = "INSERT INTO users VALUES('1', 't', 't')";
 
