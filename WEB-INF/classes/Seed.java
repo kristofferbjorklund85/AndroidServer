@@ -75,18 +75,15 @@ public class Seed {
             Statement stmt = DBConMan.getConnection().createStatement();
 
             String id1 = UUID.randomUUID().toString();
-            String id2 = UUID.randomUUID().toString();
-            String id3 = UUID.randomUUID().toString();
 
-            String[] campsiteSQL = {"INSERT INTO campsites VALUES('" + id1 + "','Lindholmen', 'Gothenburg', '-31.952854', '115.857342', 'School', 'Free', '30', 'All year', 'Very nice place, lots of cool people', '0', '1348564')",
-                                    "INSERT INTO campsites VALUES('" + id2 + "','Lindholmen', 'Gothenburg', '-32.952854', '116.857342', 'School', 'Free', '30', 'All year', 'Very nice place, lots of cool people', '1', '1348564')",
-                                    "INSERT INTO campsites VALUES('" + id3 + "','Lindholmen', 'Gothenburg', '-33.952854', '117.857342', 'School', 'Free', '30', 'All year', 'Very nice place, lots of cool people', '1', '1348564')"};
+            String[] campsiteSQL = {"INSERT INTO campsites VALUES('" + id1 + "','Lindholmen', 'Gothenburg', '57.850894', '12.033463', 'School', 'Free', '30', 'All year', 'Very nice place, lots of cool people', '0', '0')"};
 
-            String[] commentSQL = { "INSERT INTO comments VALUES('" + UUID.randomUUID().toString() + "','" + id1 + "', '2017-05-24', '1348564', 'JanBanan', 'Good stuff yo!')",
-                                    "INSERT INTO comments VALUES('" + UUID.randomUUID().toString() + "','" + id1 + "', '2017-05-24', '1348564', 'JanBanan', 'Good stuff yo!')",
-                                    "INSERT INTO comments VALUES('" + UUID.randomUUID().toString() + "','" + id1 + "', '2017-05-24', '1348564', 'JanBanan', 'Good stuff yo!')"};
+            String[] commentSQL = { "INSERT INTO comments VALUES('" + UUID.randomUUID().toString() + "','" + id1 + "', '2017-05-24', '1', 'test', 'Test comment 1')",
+                                    "INSERT INTO comments VALUES('" + UUID.randomUUID().toString() + "','" + id1 + "', '2017-05-24', '1', 'test', 'Test comment 2')",
+                                    "INSERT INTO comments VALUES('" + UUID.randomUUID().toString() + "','" + id1 + "', '2017-05-24', '1', 'test', 'Test comment 3')"};
 
-            String userSQL = "INSERT INTO users VALUES('1', 't', 't')";
+            String[] userSQL = {  "INSERT INTO users VALUES('1', 'test', 'test')",
+                                "INSERT INTO users VALUES('0', 'admin666', 'admin666')" };
 
             for (int i = 0; i < campsiteSQL.length; i++) {
                 stmt.executeUpdate(campsiteSQL[i]);
@@ -96,7 +93,10 @@ public class Seed {
                 stmt.executeUpdate(commentSQL[i]);
             }
 
-            stmt.executeUpdate(userSQL);
+            for (int i = 0; i < userSQL.length; i++) {
+                stmt.executeUpdate(userSQL[i]);
+            }
+
 
             DBManager.commitSQL(stmt);
             System.out.println("Database seeded!");
