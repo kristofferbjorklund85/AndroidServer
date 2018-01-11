@@ -46,7 +46,7 @@ public class DBManager {
         for(CampsiteModel cm : list) {
             try {
                 stmt.executeUpdate( "INSERT INTO campsites (id, location, name, lat, lng, type, fee, capacity, availability, " +
-                                    "description, views, username) VALUES ('" + cm.id + "', '" + cm.location + "', '" + cm.name + "', '" +
+                                    "description, views, userId) VALUES ('" + cm.id + "', '" + cm.location + "', '" + cm.name + "', '" +
                                     cm.lat + "', '" + cm.lng + "', '" + cm.type + "', '" + cm.fee + "', '" + cm.capacity + "', '" + cm.availability +
                                     "', '" + cm.description + "', " + cm.views + ", '" + cm.userId + "')");
                 System.out.println("Updated database with new Campsite object.");
@@ -136,7 +136,7 @@ public class DBManager {
                                                         rs.getDouble(5),
                                                         rs.getString(6),
                                                         rs.getString(7),
-                                                        rs.getInt(8),
+                                                        rs.getString(8),
                                                         rs.getString(9),
                                                         rs.getString(10),
                                                         rs.getInt(11),

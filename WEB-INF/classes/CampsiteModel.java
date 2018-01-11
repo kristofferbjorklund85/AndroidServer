@@ -7,14 +7,14 @@ public class CampsiteModel {
     double lng;
     String type;
     String fee;
-    int capacity;
+    String capacity;
     String availability;
     String description;
     int views;
     String userId;
 
     public CampsiteModel(String id, String location, String name, double lat, double lng, String type, String fee,
-                         int capacity, String availability, String description, int views, String userId){
+                         String capacity, String availability, String description, int views, String userId){
         this.id = id;
         this.location = location;
         this.name = name;
