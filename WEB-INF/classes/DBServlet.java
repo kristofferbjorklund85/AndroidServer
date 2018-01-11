@@ -156,9 +156,14 @@ public class DBServlet extends HttpServlet {
 
             //Write List of CampsiteModels to DB
             campList.add(cm);
-            DBManager.writeCampsiteToDb(campList);
+            if(DBManager.writeCampsiteToDb(campList)) {
                 System.out.println("Added campsite to DB");
-            resp.setStatus(200);
+                resp.setStatus(200);
+            } else {
+                System.out.println("Could not add campsite to DB, return 403");
+                resp.setStatus(403);
+            }
+
         }
 
         //Create List of commentModels from REQ
@@ -174,9 +179,14 @@ public class DBServlet extends HttpServlet {
             }
             //Write List of CommentModels to DB
             commentsList.add(comment);
-            DBManager.writeCommentToDb(commentsList);
-            System.out.println("Added comment to DB");
-            resp.setStatus(200);
+            if(DBManager.writeCommentToDb(commentsList)) {
+                System.out.println("Added comment to DB");
+                resp.setStatus(200);
+            } else {
+                System.out.println("Could not add comment to DB, return 403");
+                resp.setStatus(403);
+            }
+
         }
 
         //Create new User in DB
@@ -190,9 +200,14 @@ public class DBServlet extends HttpServlet {
                 throw new IOException("Error parsing JSON request string");
             }
 
-            DBManager.writeUserToDb(user);
-            System.out.println("Added User to DB");
-            resp.setStatus(200);
+            if(DBManager.writeUserToDb(user)) {
+                System.out.println("Added User to DB");
+                resp.setStatus(200);
+            } else {
+                System.out.println("Could not add user to DB, return 403");
+                resp.setStatus(403);
+            }
+
         }
 
         //Create or update Rating
@@ -207,11 +222,15 @@ public class DBServlet extends HttpServlet {
                 throw new IOException("Error parsing JSON request string");
             }
 
-            DBManager.writeRatingToDb(rating, req.getParameter("campsiteId"));
-            System.out.println("Added rating to campsite");
-            resp.setStatus(200);
+            if(DBManager.writeRatingToDb(rating, req.getParameter("campsiteId"))) {
+                System.out.println("Added/Updated rating to campsite");
+                resp.setStatus(200);
+            } else {
+                System.out.println("Could not add/update rating to DB, return 403");
+                resp.setStatus(403);
+            }
+            
         }
-
 
         else {
             System.out.println("Error in POST: " + jb.toString());
