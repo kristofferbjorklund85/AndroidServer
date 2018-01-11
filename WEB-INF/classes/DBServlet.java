@@ -66,7 +66,7 @@ public class DBServlet extends HttpServlet {
             List list = DBManager.getCampsitesFromDb();
             if(list.isEmpty()) {
                 System.out.println("Found no campsites");
-                resp.setStatus(200);
+                resp.setStatus(404);
                 return;
             }
 
@@ -82,7 +82,7 @@ public class DBServlet extends HttpServlet {
             List list = DBManager.getCommentsFromDb(req.getParameter("campsiteid"));
             if(list.isEmpty()) {
                 System.out.println("Found no comments");
-                resp.setStatus(200);
+                resp.setStatus(404);
                 return;
             }
 
@@ -96,7 +96,7 @@ public class DBServlet extends HttpServlet {
             List list = DBManager.getRatingFromDb(req.getParameter("campsiteId"));
             if(list.isEmpty()) {
                 System.out.println("Found no rating");
-                resp.setStatus(200);
+                resp.setStatus(404);
                 return;
             }
 
@@ -106,7 +106,7 @@ public class DBServlet extends HttpServlet {
         //In case of invalid request
         else {
             System.out.println("Invalid request; QueryString: " + req.getQueryString());
-            resp.setStatus(404);
+            resp.setStatus(400);
             return;
         }
 
