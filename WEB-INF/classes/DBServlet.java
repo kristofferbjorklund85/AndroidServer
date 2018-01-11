@@ -229,7 +229,7 @@ public class DBServlet extends HttpServlet {
                 System.out.println("Could not add/update rating to DB, return 403");
                 resp.setStatus(403);
             }
-            
+
         }
 
         else {
