@@ -19,7 +19,7 @@ public class DBServlet extends HttpServlet {
 
     /**
      * Used by winstone-script to start the Servlet.
-     * 
+     *
      * @throws ServletException no action required.
      */
     public void init() throws ServletException  {
