@@ -16,6 +16,7 @@ public class DBManager {
 
     /**
      * Writes comments to database.
+     *
      * @param list a list of {@link CommentModel}-object being written to database.
      * @return TRUE if comment were successfully entered into the database, FALSE if something went
      * wrong.
@@ -46,6 +47,7 @@ public class DBManager {
 
     /**
      * Writes campsite to database.
+     *
      * @param list a list of {@link CampsiteModel}-object being written to database.
      * @return TRUE if campsite were successfully entered into the database, FALSE if something went
      * wrong.
@@ -80,6 +82,7 @@ public class DBManager {
 
     /**
      * Writes user to database.
+     *
      * @param user {@link UserModel}-object being written to database.
      * @return TRUE if user were successfully entered into the database, FALSE if something went
      * wrong.
@@ -112,6 +115,7 @@ public class DBManager {
      * Writes rating to database. If no rating has previously been entered, there will be no table for ratings of
      * that campsite, and a table will be created. Name of table will be the campsiteId. If user already rated a
      * campsite, the rating will be updated.
+     *
      * @param rating {@link RatingModel}-object being written to database.
      * @param campsiteId the id of the campsite being rated.
      * @return TRUE if rating were successfully entered into the database, FALSE if something went
@@ -150,6 +154,7 @@ public class DBManager {
 
     /**
      * Gets all campsites from the database.
+     *
      * @return a list of {@link CampsiteModel}-objects.
      */
     public static List getCampsitesFromDb() {
@@ -186,6 +191,7 @@ public class DBManager {
 
     /**
      * Gets all comments from a given campsite.
+     *
      * @param campsiteId determines which campsite to find comments for.
      * @return list of {@link CommentModel}-objects.
      */
@@ -218,6 +224,7 @@ public class DBManager {
     /**
      * At the moment the only way of checking login-credentials. It also fetches user-data. Checks if username and password exists in the database, and if
      * it does, returns the user. Password is not encrypted.
+     *
      * @param username a string with username.
      * @param password a string with password.
      * @return {@link UserModel}-object.
@@ -244,6 +251,7 @@ public class DBManager {
 
     /**
      * Gets rating from database and returns a list with all ratings for a given campsite.
+     *
      * @param campsiteId determines which campsite to find ratings for.
      * @return a list of {@link RatingModel}-objects.
      */
@@ -271,6 +279,7 @@ public class DBManager {
 
     /**
      * Updates viewcount on a given campsite by 1.
+     *
      * @param campsiteId which campsite to update views for.
      * @return TRUE if views were successfully updated, FALSE if something went wrong.
      */
@@ -297,6 +306,7 @@ public class DBManager {
 
     /**
      * Delete comment from database.
+     *
      * @param commentId which comment to delete.
      * @return TRUE if comment were successfully deleted, FALSE if something went wrong.
      */
@@ -322,7 +332,8 @@ public class DBManager {
     }
 
     /**
-     * Delete campsite from database.
+     * Delete campsite and all comments to that campsite from database.
+     *
      * @param campsiteId which campsite to delete.
      * @return TRUE if campsite was successfully deleted, FALSE if something went wrong.
      */
@@ -352,6 +363,7 @@ public class DBManager {
 
     /**
      * Utility method for creating a resultset.
+     *
      * @param query the sql-query.
      * @return a {@link ResultSet} with the data from the database.
      */
@@ -372,6 +384,7 @@ public class DBManager {
 
     /**
      * Utility method for closing a {@link ResultSet}.
+     *
      * @param rs the ResultSet to close.
      * @throws NullPointerException because this method is run in the finally-block, if there was a problem with
      * creating the ResultSet, trying to close the ResultSet will throw a NullPointException. No action required.
@@ -386,6 +399,7 @@ public class DBManager {
 
     /**
      * Implements {@link Connection#commit()}.
+     *
      * @param stmt pass the statement for closing after commit is performed.
      */
     public static void commitSQL(Statement stmt) {
@@ -400,6 +414,7 @@ public class DBManager {
 
     /**
      * Implements {@link Connection#rollback()}.
+     *
      * @param stmt pass the statement for closing after rollback is performed.
      */
     public static void rollbackSQL(Statement stmt) {

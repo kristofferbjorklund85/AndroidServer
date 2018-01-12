@@ -13,12 +13,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Class that handles the initiates and handles the incoming requests to the servlet.
+ * Class that initiates the servlet and handles the incoming requests.
  */
 public class DBServlet extends HttpServlet {
 
     /**
      * Used by winstone-script to start the Servlet.
+     * 
      * @throws ServletException no action required.
      */
     public void init() throws ServletException  {
@@ -145,11 +146,23 @@ public class DBServlet extends HttpServlet {
     /**
      * POST-method for the serlvet. Handles requests posted by the client. Parses the request to a string.
      *
-     * If {@code req.getParameter("type")} is {@code "campsite"}, convert the string to {@link CampsiteModel}-objects
-     * using {@link Gson} and write object to database. 
+     * If {@code req.getParameter("type")} is {@code "campsite"}, convert the string to {@link CampsiteModel}-object
+     * using {@link Gson} and write campsite to database. If writing to database succeeded, responds to client with
+     * http status code 200. If writing to DB fails, responds to client with http status code 403.
      *
+     * If {@code req.getParameter("type")} is {@code "comment"}, convert the string to {@link CommentModel}-object
+     * using {@link Gson} and write comment to database. If writing to database succeeded, responds to client with
+     * http status code 200. If writing to DB fails, responds to client with http status code 403.
      *
+     * If {@code req.getParameter("type")} is {@code "user"}, convert the string to {@link UserModel}-object
+     * using {@link Gson} and write user to database. If writing to database succeeded, responds to client with
+     * http status code 200. If writing to DB fails, responds to client with http status code 403.
      *
+     * If {@code req.getParameter("type")} is {@code "rating"}, convert the string to {@link RatingModel}-object
+     * using {@link Gson} and write rating to database. If writing to database succeeded, responds to client with
+     * http status code 200. If writing to DB fails, responds to client with http status code 403.
+     *
+     * If request type is bad, responds with http code 400.
      *
      * @param req the request coming to the servlet.
      * @param resp the response to send back to client.
@@ -247,7 +260,6 @@ public class DBServlet extends HttpServlet {
         //Create or update RatingModel
         else if(type.equals("rating")) {
             RatingModel rating;
-            System.out.println(jb.toString());
             try {
                 rating = gson.fromJson(jb.toString(), RatingModel.class);
             } catch (JSONException e) {
@@ -272,6 +284,18 @@ public class DBServlet extends HttpServlet {
         }
     }
 
+    /** Update-method for the servlet. Handles requests posted by the client. Parses the request to a Map
+     * using {@link Splitter} from Google's <a href="https://github.com/google/guava">Guava</a> library.
+     *
+     * Only handles updates for views. Updates views on the supplied campsite, if database was successfully updated,
+     * the servlet responds with http code 200. If request was bad or the servlet was unsuccessful in updating views,
+     * the servlet responds with http code 400 to client.
+     *
+     * @param req the request coming to the servlet.
+     * @param resp the response to send back to client.
+     * @throws ServletException no action required.
+     * @throws IOException no action required.
+     */
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //super.doPut(req, resp);
@@ -307,7 +331,22 @@ public class DBServlet extends HttpServlet {
         }
     }
 
-
+    /** Delete-method for the servlet. Handles requests posted by the client. Parses the request to a Map
+     * using {@link Splitter} from Google's <a href="https://github.com/google/guava">Guava</a> library.
+     *
+     * If {@code dataMap.get("type")} is {@code "campsite"}, tries to delete the campsite from the database. If
+     * successful, responds with http code 200. If unsuccessful, responds with http status code 400.
+     *
+     * If {@code dataMap.get("type")} is {@code "comment"}, tries to delete the comment from the database. If
+     * successful, responds with http code 200. If unsuccessful, responds with http status code 400.
+     *
+     * If the request is bad, responds with http status code 400.
+     *
+     * @param req the request coming to the servlet.
+     * @param resp the response to send back to client.
+     * @throws ServletException no action required.
+     * @throws IOException no action required.
+     */
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //super.doDelete(req, resp);
