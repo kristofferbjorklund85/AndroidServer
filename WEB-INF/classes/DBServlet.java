@@ -2,36 +2,65 @@ import com.google.common.base.Splitter;
 import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * Class that handles the initiates and handles the incoming requests to the servlet.
+ */
 public class DBServlet extends HttpServlet {
 
+    /**
+     * Used by winstone-script to start the Servlet.
+     * @throws ServletException no action required.
+     */
     public void init() throws ServletException  {
-        DBConMan.createConnection();
-        //Seed.init();
+        DBSingleton.createConnection();
     }
 
+    /**
+     * GET-method for the servlet. Gets data from the database and sends back to client as JSON. Checks the
+     * request-parameter for type. Types can be: user, campsite, comment, rating. If request is bad,
+     * the servlet will return http status code 400.
+     *
+     * If {@code req.getParameter("type")} is {@code "user"}, pass username and password to database to get userdata and
+     * check login-credentials. If a user matching username and password is found in the database, responds to the
+     * client with a JSON of the users data. If no user is found matching username and password, the serlvet returns
+     * http status code 404.
+     *
+     * If {@code req.getParameter("type")} is {@code "campsite"}, all campsites with be fetched from the database and
+     * sent back to the client as JSON. If no campsites were found in the database, the serlvet returns http
+     * status code 404.
+     *
+     * If {@code req.getParameter("type")} is {@code "campsite"}, checks second parameter for campsiteId and gets all
+     * comments from the database for the supplied campsiteId and returns as JSON to client. If no comments were found,
+     * the servlet will return http status code 404.
+     *
+     * If {@code req.getParameter("type")} is {@code "rating"}, checks second parameter for campsiteId and gets all
+     * rating from the database for the supplied campsiteId and returns as JSON to client. If no rating were found,
+     * the servlet will return http status code 404.
+     *
+     * @param req the request coming to the servlet.
+     * @param resp the response to send back to client.
+     * @throws ServletException no action required.
+     * @throws IOException no action required.
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //super.doGet(req, resp);
-
         JSONArray jRay = null;
+        String type = req.getParameter("type");
+        resp.setContentType("application/json");
 
-        //Create and return User
-        if(req.getParameter("type").equals("user")) {
-            resp.setContentType("application/json");
-
+        //Create and return UserModel
+        if(type.equals("user")) {
             String username = req.getParameter("username");
             String password = req.getParameter("password");
 
@@ -41,28 +70,26 @@ public class DBServlet extends HttpServlet {
                 return;
             }
 
-            User user = DBManager.getUserFromDb(username, password);
+            UserModel user = DBManager.getUserFromDb(username, password);
             if(user == null) {
                 System.out.println("Could not find user; username: " + username + ", password: " + password);
                 resp.setStatus(404);
                 return;
             }
-            //Create JSON from User-object
+            //Create JSON from UserModel-object
             String userJson = JSONManager.userToJSON(user);
 
-            //Return User-object as JSON to the user
+            //Return UserModel-object as JSON to the user
             PrintWriter out = resp.getWriter();
             out.print(userJson);
             out.close();
-            System.out.println("Found User id:" + user.id + ". Returning.");
+            System.out.println("Found UserModel id:" + user.id + ". Returning.");
             resp.setStatus(200);
             return;
         }
 
         //Create list of Campsites
-        else if(req.getParameter("type").equals("campsite")) {
-            resp.setContentType("application/json");
-
+        else if(type.equals("campsite")) {
             List list = DBManager.getCampsitesFromDb();
             if(list.isEmpty()) {
                 System.out.println("Found no campsites");
@@ -76,9 +103,7 @@ public class DBServlet extends HttpServlet {
         }
 
         //Create List of Comments
-        else if(req.getParameter("type").equals("comment")) {
-            resp.setContentType("application/json");
-
+        else if(type.equals("comment")) {
             List list = DBManager.getCommentsFromDb(req.getParameter("campsiteid"));
             if(list.isEmpty()) {
                 System.out.println("Found no comments");
@@ -90,9 +115,7 @@ public class DBServlet extends HttpServlet {
         }
 
         //Create List of Ratings
-        else if(req.getParameter("type").equals("rating")) {
-            resp.setContentType("application/json");
-
+        else if(type.equals("rating")) {
             List list = DBManager.getRatingFromDb(req.getParameter("campsiteId"));
             if(list.isEmpty()) {
                 System.out.println("Found no rating");
@@ -119,19 +142,30 @@ public class DBServlet extends HttpServlet {
 
     }
 
+    /**
+     * POST-method for the serlvet. Handles requests posted by the client. Parses the request to a string.
+     *
+     * If {@code req.getParameter("type")} is {@code "campsite"}, convert the string to {@link CampsiteModel}-objects
+     * using {@link Gson} and write object to database. 
+     *
+     *
+     *
+     *
+     * @param req the request coming to the servlet.
+     * @param resp the response to send back to client.
+     * @throws ServletException no action required.
+     * @throws IOException no action required.
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //super.doPost(req, resp);
 
-        //Tar endast ett object i nuläget
-
-
         Gson gson = new Gson();
         StringBuffer jb = new StringBuffer();
-        String line = null;
         String type = req.getParameter("type");
 
         try {
+            String line = null;
             BufferedReader reader = req.getReader();
             while ((line = reader.readLine()) != null)
                 jb.append(line);
@@ -189,11 +223,11 @@ public class DBServlet extends HttpServlet {
 
         }
 
-        //Create new User in DB
+        //Create new UserModel in DB
         else if(type.equals("user")) {
-            User user;
+            UserModel user;
             try {
-                user = gson.fromJson(jb.toString(), User.class);
+                user = gson.fromJson(jb.toString(), UserModel.class);
             } catch (JSONException e) {
                 System.out.println("Error creating new user" + e.getMessage());
                 resp.setStatus(400);
@@ -201,7 +235,7 @@ public class DBServlet extends HttpServlet {
             }
 
             if(DBManager.writeUserToDb(user)) {
-                System.out.println("Added User to DB");
+                System.out.println("Added UserModel to DB");
                 resp.setStatus(200);
             } else {
                 System.out.println("Could not add user to DB, return 403");
@@ -210,12 +244,12 @@ public class DBServlet extends HttpServlet {
 
         }
 
-        //Create or update Rating
+        //Create or update RatingModel
         else if(type.equals("rating")) {
-            Rating rating;
+            RatingModel rating;
             System.out.println(jb.toString());
             try {
-                rating = gson.fromJson(jb.toString(), Rating.class);
+                rating = gson.fromJson(jb.toString(), RatingModel.class);
             } catch (JSONException e) {
                 System.out.println("Error inputting rating" + e.getMessage());
                 resp.setStatus(400);

@@ -1,3 +1,7 @@
+
+/**
+ * Model for campsite-object.
+ */
 public class CampsiteModel {
 
     String id;

@@ -1,22 +1,30 @@
 import java.sql.*;
 import java.util.UUID;
 
+/**
+ * Static seed-method. Creates tables for Campsites, Comments and Users. RatingModel is not included.
+ */
 public class Seed {
 
+    /**
+     * Method to call to seed database. Creates connection and calls deleteTables(), createNewTable(), seedDB().
+     */
     public static void init() {
-        DBConMan.createConnection();
+        DBSingleton.createConnection();
         deleteTables();
         createNewTable();
         seedDB();
     }
 
+    /**
+     * Drop tables from Database.
+     */
     private static void deleteTables() {
         String sql1 = "DROP TABLE IF EXISTS campsites";
         String sql2 = "DROP TABLE IF EXISTS comments";
         String sql3 = "DROP TABLE IF EXISTS users";
         try {
-            Statement stmt = DBConMan.getConnection().createStatement();
-            // create a new table
+            Statement stmt = DBSingleton.getConnection().createStatement();
             stmt.execute(sql1);
             stmt.execute(sql2);
             stmt.execute(sql3);
@@ -26,8 +34,10 @@ public class Seed {
         }
     }
 
+    /**
+     * Create new tables in the database for Campsites, Comments and Users.
+     */
     private static void createNewTable() {
-        // SQL statement for creating a new table
         String campsiteTableSQL = "CREATE TABLE IF NOT EXISTS campsites (\n"
                                 + "	id text PRIMARY KEY,\n"
                                 + "	location text NOT NULL,\n"
@@ -59,7 +69,7 @@ public class Seed {
                                 + "PRIMARY KEY (id));";
 
         try {
-            Statement stmt = DBConMan.getConnection().createStatement();
+            Statement stmt = DBSingleton.getConnection().createStatement();
             // create a new table
             stmt.execute(campsiteTableSQL);
             stmt.execute(commentTableSQL);
@@ -70,9 +80,15 @@ public class Seed {
         }
     }
 
+    /**
+     * Insert data into the database. Generates unique IDs with {@link UUID#randomUUID().toString()}.
+     * Creates Comments for the first campsite inserted.
+     * Creates two users.
+     * Commits all SQL by calling {@link DBManager#commitSQL(Statement)}.
+     */
     private static void seedDB() {
         try {
-            Statement stmt = DBConMan.getConnection().createStatement();
+            Statement stmt = DBSingleton.getConnection().createStatement();
 
             String id1 = UUID.randomUUID().toString();
 
@@ -96,7 +112,6 @@ public class Seed {
             for (int i = 0; i < userSQL.length; i++) {
                 stmt.executeUpdate(userSQL[i]);
             }
-
 
             DBManager.commitSQL(stmt);
             System.out.println("Database seeded!");

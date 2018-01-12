@@ -1,4 +1,9 @@
+
+/**
+ * Model for comments.
+ */
 public class CommentModel {
+
     String id;
     String campsiteId;
     String date;

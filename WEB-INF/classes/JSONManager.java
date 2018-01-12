@@ -1,41 +1,17 @@
-import java.util.ArrayList;
 import java.util.List;
-
 import com.google.gson.Gson;
 import org.json.*;
 
-
+/**
+ * Util class to convert List of objects to JSON. Uses Google's {@link Gson} library.
+ */
 public class JSONManager {
 
-    //TODO se över denna metod, behöver vi den?
-    /*public static List CampsitefromJSON(JSONArray array) {
-        List<CampsiteModel> campList = new ArrayList<>();
-        for (int i = 0; i < array.length(); i++) {
-            try {
-                JSONObject jsonObj = array.getJSONObject(i);
-                CampsiteModel cm = new CampsiteModel(
-                    jsonObj.getString("id"),
-                    jsonObj.getString("location"),
-                    jsonObj.getString("name"),
-                    jsonObj.getDouble("lat"),
-                    jsonObj.getDouble("lng"),
-                    jsonObj.getString("type"),
-                    jsonObj.getString("fee"),
-                    jsonObj.getInt("capacity"),
-                    jsonObj.getString("availability"),
-                    jsonObj.getString("description"),
-                    jsonObj.getDouble("rating"),
-                    jsonObj.getInt("views"),
-                    jsonObj.getString("username"));
-
-                campList.add(cm);
-            } catch (JSONException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        return campList;
-    }*/
-
+    /**
+     * Converts list of CampsiteModel-objects to JSONArray.
+     * @param list of CampsiteModel-objects.
+     * @return JSONArray of CampsiteModel-objects.
+     */
     public static JSONArray campsitesToJSON(List list) {
         JSONArray jsonArray = new JSONArray();
 
@@ -60,6 +36,11 @@ public class JSONManager {
         return jsonArray;
     }
 
+    /**
+     * Converts list of CommentModel-objects to JSONArray.
+     * @param list of CommentModel-objects.
+     * @return JSONArray of CommentModel-objects.
+     */
     public static JSONArray commentsToJSON(List list) {
         JSONArray jsonArray = new JSONArray();
 
@@ -78,18 +59,28 @@ public class JSONManager {
         return jsonArray;
     }
 
-    public static String userToJSON(User user) {
+    /**
+     * Converts UserModel-objects to JSON using {@link Gson}.
+     * @param user
+     * @return JSON object as a string.
+     */
+    public static String userToJSON(UserModel user) {
         Gson gson = new Gson();
         String userJSON = gson.toJson(user);
 
         return userJSON;
     }
 
+    /**
+     * Converts list of RatingModel-objects to JSONArray.
+     * @param list of RatingModel-objects.
+     * @return JSONArray of RatingModel-objects.
+     */
     public static JSONArray ratingToJSON(List list) {
         JSONArray jsonArray = new JSONArray();
 
         for (int i = 0; i < list.size(); i++) {
-            Rating rat = (Rating) list.get(i);
+            RatingModel rat = (RatingModel) list.get(i);
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("userId", rat.userId);
             jsonObj.put("rating", rat.rating);
