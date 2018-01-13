@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact build-on-make="true" name="winstone">
+    <output-path>$PROJECT_DIR$/out/AndroidServer</output-path>
+    <root id="root">
+      <element id="file-copy" path="$PROJECT_DIR$/winstone-0.9.10.jar" />
+    </root>
+  </artifact>
+</component>

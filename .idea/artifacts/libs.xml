@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact build-on-make="true" name="libs">
+    <output-path>$PROJECT_DIR$/out/AndroidServer/WEB-INF/lib</output-path>
+    <root id="root">
+      <element id="library" level="project" name="gson-2.8.2" />
+      <element id="library" level="project" name="guava-19.0" />
+      <element id="library" level="project" name="javax.servlet-api-3.1.0" />
+      <element id="library" level="project" name="json-20140107" />
+      <element id="library" level="project" name="sqlite-jdbc-3.20.0" />
+    </root>
+  </artifact>
+</component>

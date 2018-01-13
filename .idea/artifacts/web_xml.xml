@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact build-on-make="true" name="web.xml">
+    <output-path>$PROJECT_DIR$/out/AndroidServer/WEB-INF</output-path>
+    <root id="root">
+      <element id="file-copy" path="$PROJECT_DIR$/WEB-INF/web.xml" />
+    </root>
+  </artifact>
+</component>
